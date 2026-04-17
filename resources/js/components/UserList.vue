@@ -7,20 +7,22 @@ defineProps<{
 </script>
 
 <template>
-    <table>
-        <thead>
-            <tr>
-                <th>Navn</th>
-                <th>Points</th>
-                <th>Win%</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr v-for="user in users">
-                <td>{{ user.name }}</td>
-                <td>{{ user.points }}</td>
-                <td>{{ user.win_percentage }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <div>
+        <table class="table-auto w-full">
+            <thead>
+                <tr>
+                    <th>Navn</th>
+                    <th>Points</th>
+                    <th>Win%</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="user in users">
+                    <td>{{ user.name }}</td>
+                    <td>{{ user.points }}</td>
+                    <td>{{ (user.win_percentage * 100).toFixed(2) }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </template>

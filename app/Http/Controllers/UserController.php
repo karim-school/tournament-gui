@@ -12,7 +12,14 @@ class UserController extends Controller
     public function index()
     {
         return Inertia::render('RankList', [
-            'users' => RankUser::all(),
+            'users' => RankUser::get([ 'name', 'points', 'wins', 'games' ])->map(function ($user) {
+                $win_percentage = $user->wins / $user->games;
+                return [
+                    'name' => $user->name,
+                    'points' => $user->points,
+                    'win_percentage' => $win_percentage,
+                ];
+            }),
         ]);
     }
 
