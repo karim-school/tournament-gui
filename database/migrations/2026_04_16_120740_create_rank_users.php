@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('rank_users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->integer('points');
-            $table->integer('wins');
-            $table->integer('games');
+            $table->integer('points')->default(0);
+            $table->integer('wins')->default(0);
+            $table->integer('games')->default(0);
             $table->timestamps();
         });
     }

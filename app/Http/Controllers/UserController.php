@@ -12,14 +12,28 @@ class UserController extends Controller
     public function index()
     {
         return Inertia::render('RankList', [
-            'users' => RankUser::get([ 'name', 'points', 'wins', 'games' ])->map(function ($user) {
-                $win_percentage = $user->wins / $user->games;
+            'users' => RankUser::get([ 'id', 'name', 'points', 'wins', 'games' ])->map(function ($user) {
+                $win_percentage = $user->games > 0 ? $user->wins / $user->games : 0;
                 return [
+                    'id' => $user->id,
                     'name' => $user->name,
                     'points' => $user->points,
                     'win_percentage' => $win_percentage,
                 ];
             }),
+        ]);
+    }
+
+    public function view(RankUser $user)
+    {
+        $win_percentage = $user->games > 0 ? $user->wins / $user->games : 0;
+        return Inertia::render('ViewUser', [
+            'user' => [
+                'id' => $user->id,
+                'name' => $user->name,
+                'points' => $user->points,
+                'win_percentage' => $win_percentage,
+            ],
         ]);
     }
 
@@ -41,6 +55,16 @@ class UserController extends Controller
             'name' => 'required|max:32',
         ]);
 
-        die('add: ' . $validated['name']);
+        $user = new RankUser([
+            'name'=> $validated['name'],
+        ]);
+
+        $user->save();
+    }
+
+    public function delete(RankUser $user)
+    {
+        $user->delete();
+        return to_route('users.index');
     }
 }
