@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { RankUser } from '@/types';
 import { useForm } from '@inertiajs/vue3';
+import type { RankUser } from '@/types';
 
 defineProps<{
     user: RankUser

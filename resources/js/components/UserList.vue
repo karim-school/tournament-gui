@@ -1,10 +1,12 @@
 <script setup lang="ts">
-import { RankUser } from '@/types';
 import { Link } from '@inertiajs/vue3';
+import type { RankUser } from '@/types';
 
-defineProps<{
+const props = defineProps<{
     users: RankUser[]
 }>()
+
+const mutableUsers: RankUser[] = props.users;
 </script>
 
 <template>
@@ -18,7 +20,7 @@ defineProps<{
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="user in users.sort((u1, u2) => u2.points - u1.points)">
+                <tr v-for="(user, index) in mutableUsers.sort((u1, u2) => u2.points - u1.points)" :key="index">
                     <td><Link :href="'/users/' + user.id">{{ user.name }}</Link></td>
                     <td>{{ user.points }}</td>
                     <td>{{ (user.win_percentage * 100).toFixed(2) }}</td>

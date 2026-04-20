@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import { useForm, router } from '@inertiajs/vue3';
 import UserList from '@/components/UserList.vue';
-import { RankUser } from '@/types';
-import { useForm, router, Form } from '@inertiajs/vue3';
+import type { RankUser } from '@/types';
 
 const addUserForm = useForm({
     name: null,
