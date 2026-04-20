@@ -15,6 +15,8 @@ This service provides a filterable list of publicly accessible CitiBike trip rec
 - Detailed view of a record.
 - Filters for finding records matching a certain criteria.
 - Function to add, modify and delete a record.
+- Responsive design.
+- Lazy loading.
 
 ### 1.3 Excluded Services
 - Data accuracy or otherwise correctness.
@@ -44,6 +46,36 @@ This service provides a filterable list of publicly accessible CitiBike trip rec
             <td>Data Layer</td>
             <td>SQLite</td>
             <td>L2 / L3</td>
+        </tr>
+    </tbody>
+</table>
+
+## 3. Performance Metrics
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Metric</th>
+            <th>Goal</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th>Lighthouse Score</th>
+            <td>&ge; 90</td>
+        </tr>
+        <tr>
+            <th>Accessibility</th>
+            <td>&ge; 90</td>
+        </tr>
+        <tr>
+            <th>First Contentful Paint</th>
+            <td>&lt; 2 sec</td>
+        </tr>
+        <tr>
+            <th>Time to Interactive</th>
+            <td>&lt; 3 sec</td>
         </tr>
     </tbody>
 </table>
