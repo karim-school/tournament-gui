@@ -7,18 +7,15 @@ const addUserForm = useForm({
     name: null,
 });
 
+const addUser = () => {
+    addUserForm.post('/users', {
+        onSuccess: () => addUserForm.reset()
+    });
+};
+
 defineProps<{
     users: RankUser[]
 }>();
-
-/*
-let users = [];
-router.get('/users', undefined, {
-    onSuccess: (page) => {
-        console.log(page);
-    }
-});
-*/
 </script>
 
 <template>
@@ -26,7 +23,7 @@ router.get('/users', undefined, {
         <h1 class="text-2xl font-bold text-primary-blue text-center">Rank List</h1>
         <h2 class="text-xl font-semibold text-primary-blue text-center">Subtitle</h2>
         <div class="text-center">
-            <form @submit.prevent="addUserForm.post('/users', { onSuccess: () => addUserForm.reset() })" class="inline w-fit">
+            <form @submit.prevent="addUser" class="inline w-fit">
                 <input type="text" v-model="addUserForm.name" name="name" autocomplete="off" class="outline">
                 <button type="submit" :disabled="addUserForm.processing" class="ml-2">Tilføj</button>
             </form>
