@@ -2,6 +2,10 @@
 
 namespace App\Models;
 
+use App\Http\Resources\TripRecordResource;
+use Database\Factories\TripRecordFactory;
+use Illuminate\Database\Eloquent\Attributes\UseResource;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -15,7 +19,13 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $end_location
  * @property string $member_casual
  */
+#[UseResource(TripRecordResource::class)]
 class TripRecord extends Model
 {
-    //
+    /**
+     * @use HasFactory<TripRecordFactory>
+     */
+    use HasFactory;
+
+    public $timestamps = false;
 }

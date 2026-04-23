@@ -21,6 +21,6 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
-        RankUser::factory()->count(10)->create();
+        // RankUser::factory()->count(10)->create();
     }
 }
