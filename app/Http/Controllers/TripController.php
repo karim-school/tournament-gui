@@ -16,13 +16,11 @@ class TripController extends Controller
     public function index()
     {
         try {
-//            $trips = TripRecord::all()->take(5);
-            $trips = TripRecord::factory()->count(5)->make();
+            $trips = TripRecord::all()->take(5);
             return Inertia::render('Trips/Index', [
                 'trips' => $trips->toResourceCollection()->resolve(),
             ]);
-        } catch (\Throwable $e) {
-            dump($e);
+        } catch (\Throwable) {
             return abort(500);
         }
     }
@@ -48,7 +46,7 @@ class TripController extends Controller
      */
     public function show(TripRecord $tripRecord)
     {
-        //
+        return Inertia::render('Trips/Show', [ 'trip' => $tripRecord->toResource()->resolve() ]);
     }
 
     /**

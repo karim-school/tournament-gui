@@ -28,7 +28,7 @@ class TripRecordResource extends JsonResource
         }
 
         return [
-            'ride_id' => $model['id'],
+            'id' => (string)$model['id'],
             'rideable_type' => $model['rideable_type'],
             'started_at' => $model['started_at'],
             'ended_at' => $model['ended_at'],

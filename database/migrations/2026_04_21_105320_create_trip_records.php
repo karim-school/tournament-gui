@@ -34,11 +34,11 @@ return new class extends Migration
             $table->float('end_location_longitude');
             $table->string('member_casual');
 
-            $table->foreign('start_station_id')->references('id')->on('stations');
-            $table->foreign('start_station_sub_id')->references('sub_id')->on('stations');
+            $table->foreign([ 'start_station_id', 'start_station_sub_id' ])
+                ->references([ 'id', 'sub_id' ])->on('stations');
 
-            $table->foreign('end_station_id')->references('id')->on('stations');
-            $table->foreign('end_station_sub_id')->references('sub_id')->on('stations');
+            $table->foreign([ 'end_station_id', 'end_station_sub_id' ])
+                ->references([ 'id', 'sub_id' ])->on('stations');
         });
     }
 

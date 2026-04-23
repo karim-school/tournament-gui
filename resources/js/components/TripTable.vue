@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
 import type { TripRecord } from '@/types';
-import DateTimeFormat = Intl.DateTimeFormat;
 
 const props = defineProps<{
     trips: TripRecord[]
 }>()
 
-const mutableTrips: TripRecord[] = props.trips;
+const mutableTrips: TripRecord[] = props.trips.map(trip => ({ ...trip, id: BigInt(trip.id) }));
 </script>
 
 <template>
@@ -28,7 +27,7 @@ const mutableTrips: TripRecord[] = props.trips;
             </thead>
             <tbody>
             <tr v-for="(trip, index) in mutableTrips.sort((t1, t2) => t2.points - t1.points)" :key="index">
-                <td><Link :href="'/trips/' + trip.ride_id">{{ trip.ride_id.toString(16).toUpperCase() }}</Link></td>
+                <td><Link :href="'/trips/' + trip.id.toString(16)">{{ trip.id.toString(16).toUpperCase() }}</Link></td>
                 <td>{{ trip.rideable_type }}</td>
                 <td>{{ new Date(trip.started_at * 1000).toISOString() }}</td>
                 <td>{{ new Date(trip.ended_at * 1000).toISOString() }}</td>
