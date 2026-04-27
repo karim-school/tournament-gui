@@ -80,7 +80,7 @@ const loadMore = async () => {
 
             <TripFilterBar :filters="filters" />
 
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow">
                 <TripTable
                     :trips="allTrips"
                     :has-more="hasMoreData"

@@ -14,7 +14,6 @@ const emit = defineEmits<{
 }>();
 
 const sentinel = ref<HTMLElement | null>(null);
-const isLoading = ref(false);
 let observer: IntersectionObserver | null = null;
 
 const setupObserver = () => {
@@ -23,12 +22,8 @@ const setupObserver = () => {
     observer = new IntersectionObserver(
         (entries) => {
             const entry = entries[0];
-            if (entry.isIntersecting && !isLoading.value) {
-                isLoading.value = true;
+            if (entry.isIntersecting) {
                 emit('load:more');
-                setTimeout(() => {
-                    isLoading.value = false;
-                }, 500);
             }
         },
         { rootMargin: '100px' }
@@ -50,16 +45,24 @@ watch(() => sentinel.value, () => {
     setupObserver();
 });
 
-const formatDate = (timestamp: number | string): string => {
+const formatDateOnly = (timestamp: number | string): string => {
     const date = new Date(timestamp);
-
     return date.toLocaleDateString('en-US', {
-        year: 'numeric',
         month: 'short',
         day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
+        year: 'numeric',
     });
+};
+
+const formatDuration = (start: number, end: number): string => {
+    const diff = new Date(end).getTime() - new Date(start).getTime();
+    const minutes = Math.floor(diff / 60000);
+    if (minutes < 60) {
+        return `${minutes}m`;
+    }
+    const hours = Math.floor(minutes / 60);
+    const mins = minutes % 60;
+    return `${hours}h ${mins}m`;
 };
 
 const formatId = (id: string): string => {
@@ -72,28 +75,25 @@ const formatId = (id: string): string => {
         <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
             <thead class="bg-gray-50 dark:bg-gray-800 sticky top-0">
                 <tr>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider" colspan="2">
                         ID
                     </th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider" colspan="1">
                         Type
                     </th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                        Start Time
+                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider" colspan="2">
+                        Start Date
                     </th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                        End Time
+                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider" colspan="1">
+                        Duration
                     </th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                        Start Station
+                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider" colspan="2">
+                        Start Stn
                     </th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                        End Station
+                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider" colspan="2">
+                        End Stn
                     </th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                        Location
-                    </th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider" colspan="1">
                         Rider
                     </th>
                 </tr>
@@ -104,34 +104,31 @@ const formatId = (id: string): string => {
                     :key="index"
                     class="hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
                 >
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
+                    <td class="px-2 py-3 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100 truncate" colspan="2">
                         <Link :href="'/trips/' + formatId(trip.id)" class="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300">
                             {{ formatId(trip.id) }}
                         </Link>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                    <td class="px-2 py-3 whitespace-nowrap text-center text-sm text-gray-500 dark:text-gray-400" colspan="1">
                         <span
                             :class="trip.rideable_type === 'electric_bike' ? 'px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200' : 'px-2 py-1 text-xs rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'"
                         >
-                            {{ trip.rideable_type === 'electric_bike' ? 'Electric' : 'Classic' }}
+                            {{ trip.rideable_type === 'electric_bike' ? 'E-Bike' : 'Bike' }}
                         </span>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                        {{ formatDate(trip.started_at) }}
+                    <td class="px-2 py-3 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400" colspan="2">
+                        {{ formatDateOnly(trip.started_at) }}
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                        {{ formatDate(trip.ended_at) }}
+                    <td class="px-2 py-3 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400" colspan="1">
+                        {{ formatDuration(trip.started_at, trip.ended_at) }}
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
+                    <td class="px-2 py-3 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100 truncate" colspan="2">
                         {{ trip.start_station?.name || 'Unknown' }}
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
+                    <td class="px-2 py-3 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100 truncate" colspan="2">
                         {{ trip.end_station?.name || 'Unknown' }}
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                        {{ trip.start_location?.latitude?.toFixed(2) }}, {{ trip.start_location?.longitude?.toFixed(2) }}
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm">
+                    <td class="px-2 py-3 whitespace-nowrap text-center text-sm" colspan="1">
                         <span
                             :class="trip.member_casual === 'member' ? 'px-2 py-1 text-xs rounded-full bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200' : 'px-2 py-1 text-xs rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'"
                         >
