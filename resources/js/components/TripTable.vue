@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ref, onMounted, onUnmounted, watch } from 'vue';
 import { Link } from '@inertiajs/vue3';
 import type { TripRecord } from '@/types';
 
@@ -12,9 +13,42 @@ const emit = defineEmits<{
     (e: 'load:more'): void;
 }>();
 
-const loadMore = () => {
-    emit('load:more');
+const sentinel = ref<HTMLElement | null>(null);
+const isLoading = ref(false);
+let observer: IntersectionObserver | null = null;
+
+const setupObserver = () => {
+    if (!sentinel.value) return;
+    
+    observer = new IntersectionObserver(
+        (entries) => {
+            const entry = entries[0];
+            if (entry.isIntersecting && !isLoading.value) {
+                isLoading.value = true;
+                emit('load:more');
+                setTimeout(() => {
+                    isLoading.value = false;
+                }, 500);
+            }
+        },
+        { rootMargin: '100px' }
+    );
+    
+    observer.observe(sentinel.value);
 };
+
+onMounted(() => {
+    setupObserver();
+});
+
+onUnmounted(() => {
+    observer?.disconnect();
+});
+
+watch(() => sentinel.value, () => {
+    observer?.disconnect();
+    setupObserver();
+});
 
 const formatDate = (timestamp: number | string): string => {
     const date = new Date(timestamp);
@@ -110,14 +144,7 @@ const formatId = (id: bigint | number): string => {
             </tbody>
         </table>
 
-        <div v-if="hasMore" class="p-4 text-center">
-            <button
-                @click="loadMore"
-                class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50"
-            >
-                Load More
-            </button>
-        </div>
+        <div ref="sentinel" class="h-4"></div>
 
         <div v-if="!hasMore && trips.length > 0" class="p-4 text-center text-gray-500 dark:text-gray-400 text-sm">
             No more records to load

@@ -11,7 +11,7 @@ use Inertia\Inertia;
 
 class TripController extends Controller
 {
-    private const PER_PAGE = 10;
+    private const PER_PAGE = 20;
 
     public function index(Request $request)
     {
@@ -50,6 +50,13 @@ class TripController extends Controller
                 ->offset(($page - 1) * self::PER_PAGE)
                 ->limit(self::PER_PAGE)
                 ->get();
+
+            if ($request->boolean('api')) {
+                return response()->json([
+                    'trips' => $trips->toResourceCollection()->resolve(),
+                    'hasMore' => $hasMore,
+                ]);
+            }
 
             return Inertia::render('Trips/Index', [
                 'trips' => $trips->toResourceCollection()->resolve(),
