@@ -37,8 +37,11 @@ const loadMore = async () => {
     if (isLoadingMore.value || !hasMoreData.value) return;
     isLoadingMore.value = true;
     currentPageData.value++;
+    const activeFilters = Object.fromEntries(
+        Object.entries(props.filters).filter(([_, v]) => v && v !== '')
+    );
     const params = new URLSearchParams({
-        ...props.filters,
+        ...activeFilters,
         api: 'true',
         page: currentPageData.value.toString(),
     }).toString();
