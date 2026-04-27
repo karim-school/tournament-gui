@@ -20,7 +20,7 @@ class Station extends Model
 
     public $timestamps = false;
 
-    public static function find(int $id, int $sub_id): ?Station
+    public static function findByIdAndSubId(int $id, int $sub_id): ?Station
     {
         return Station::query()->where(['id' => $id, 'sub_id' => $sub_id])->first();
     }

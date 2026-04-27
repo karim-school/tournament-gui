@@ -16,27 +16,29 @@ class TripController extends Controller
     public function index(Request $request)
     {
         try {
-            $query = TripRecord::query()->with(['startStation', 'endStation']);
+            $query = TripRecord::query();
 
-            if ($request->has('rideable_type') && $request->rideable_type !== '' && $request->rideable_type !== 'all') {
+            if ($request->filled('rideable_type') && $request->rideable_type !== 'all') {
                 $query->where('rideable_type', $request->rideable_type);
             }
 
-            if ($request->has('member_casual') && $request->member_casual !== '' && $request->member_casual !== 'all') {
+            if ($request->filled('member_casual') && $request->member_casual !== 'all') {
                 $query->where('member_casual', $request->member_casual);
             }
 
-            if ($request->has('station') && $request->station !== '') {
+            if ($request->filled('station')) {
                 $stationSearch = '%'.$request->station.'%';
-                $query->whereHas('startStation', fn ($q) => $q->where('name', 'like', $stationSearch))
-                    ->orWhereHas('endStation', fn ($q) => $q->where('name', 'like', $stationSearch));
+                $query->where(function ($q) use ($stationSearch) {
+                    $q->whereHas('startStation', fn ($q) => $q->where('name', 'like', $stationSearch))
+                        ->orWhereHas('endStation', fn ($q) => $q->where('name', 'like', $stationSearch));
+                });
             }
 
-            if ($request->has('date_from') && $request->date_from !== '') {
+            if ($request->filled('date_from')) {
                 $query->where('started_at', '>=', $request->date_from.' 00:00:00');
             }
 
-            if ($request->has('date_to') && $request->date_to !== '') {
+            if ($request->filled('date_to')) {
                 $query->where('started_at', '<=', $request->date_to.' 23:59:59');
             }
 
@@ -105,8 +107,6 @@ class TripController extends Controller
 
     public function show(TripRecord $tripRecord)
     {
-        $tripRecord->load(['startStation', 'endStation']);
-
         return Inertia::render('Trips/Show', ['trip' => $tripRecord->toResource()->resolve()]);
     }
 

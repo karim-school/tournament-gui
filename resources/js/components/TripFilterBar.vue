@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { router } from '@inertiajs/vue3';
+import { ref, watch } from 'vue';
 
 const props = defineProps<{
     filters: {
@@ -11,18 +12,20 @@ const props = defineProps<{
     };
 }>();
 
-const applyFilters = () => {
-    router.get('/trips', props.filters, { preserveState: true });
-};
+const localFilters = ref({ ...props.filters });
+
+watch(localFilters, () => {
+    router.get('/trips', localFilters.value, { preserveState: true });
+}, { deep: true });
 
 const resetFilters = () => {
-    router.get('/trips', {
+    localFilters.value = {
         rideable_type: 'all',
         member_casual: 'all',
         station: '',
         date_from: '',
         date_to: '',
-    }, { preserveState: true });
+    };
 };
 </script>
 
@@ -34,8 +37,7 @@ const resetFilters = () => {
                     Ride Type
                 </label>
                 <select
-                    :value="filters.rideable_type"
-                    @change="applyFilters"
+                    v-model="localFilters.rideable_type"
                     class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                 >
                     <option value="all">All Types</option>
@@ -49,8 +51,7 @@ const resetFilters = () => {
                     Rider Type
                 </label>
                 <select
-                    :value="filters.member_casual"
-                    @change="applyFilters"
+                    v-model="localFilters.member_casual"
                     class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                 >
                     <option value="all">All Riders</option>
@@ -65,9 +66,7 @@ const resetFilters = () => {
                 </label>
                 <input
                     type="text"
-                    :value="filters.station"
-                    @input="applyFilters"
-                    @keyup.enter="applyFilters"
+                    v-model="localFilters.station"
                     placeholder="Search stations..."
                     class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                 />
@@ -79,8 +78,7 @@ const resetFilters = () => {
                 </label>
                 <input
                     type="date"
-                    :value="filters.date_from"
-                    @change="applyFilters"
+                    v-model="localFilters.date_from"
                     class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                 />
             </div>
@@ -91,8 +89,7 @@ const resetFilters = () => {
                 </label>
                 <input
                     type="date"
-                    :value="filters.date_to"
-                    @change="applyFilters"
+                    v-model="localFilters.date_to"
                     class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                 />
             </div>
