@@ -79,3 +79,35 @@ This service provides a filterable list of publicly accessible CitiBike trip rec
         </tr>
     </tbody>
 </table>
+
+## 4. Service Ownership
+
+| Role | Name | Contact |
+|------|------|---------|
+| Service Owner | Karim | [Your contact] |
+| Service Level Manager | Karim | [Your contact] |
+
+## 5. Service Value Chain
+
+This service follows the ITIL4f value chain model:
+
+| Activity | Implementation |
+|----------|---------------|
+| Engage | Route matching, request handling |
+| Design & Build | Controller processing, model operations |
+| Deploy & Operate | Server runtime, database queries |
+| Obtain & Assure | Response delivery, error handling |
+| Continue | Feature iterations |
+
+## 6. Four Dimensions Summary
+
+| Dimension | Coverage |
+|-----------|----------|
+| Organizations & People | Single developer (self) |
+| Information & Technology | Laravel, Vue.js, SQLite |
+| Partners & Suppliers | Open-source dependencies |
+| Value Streams | Request → Response flow |
+
+---
+
+*For detailed ITIL4f documentation, see [ITIL.md](ITIL.md).*

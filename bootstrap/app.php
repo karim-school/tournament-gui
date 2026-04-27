@@ -2,6 +2,7 @@
 
 use App\Http\Middleware\CompressResponse;
 use App\Http\Middleware\HandleInertiaRequests;
+use App\Http\Middleware\MeasurePerformance;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -17,7 +18,8 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->web(append: [
             HandleInertiaRequests::class,
             AddLinkHeadersForPreloadedAssets::class,
-            CompressResponse::class
+            CompressResponse::class,
+            MeasurePerformance::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

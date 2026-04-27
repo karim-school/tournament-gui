@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import TripTable from '@/components/TripTable.vue';
-import { TripRecord } from '@/types';
+import type { TripRecord } from '@/types';
 
 const props = defineProps<{
     trips: TripRecord[]

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { TripRecord } from '@/types';
+import type { TripRecord } from '@/types';
 
 const props = defineProps<{
     trip: TripRecord

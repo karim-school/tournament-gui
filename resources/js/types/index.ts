@@ -1,12 +1,5 @@
 export * from './auth';
 
-export type RankUser = {
-    id: number;
-    name: string;
-    points: number;
-    win_percentage: number;
-};
-
 export type WorldLocation = {
     latitude: number;
     longitude: number;
@@ -19,7 +12,7 @@ export type Station = {
 };
 
 export type TripRecord = {
-    id: BigInt; // e.g., A324B30D9C1F6CFE
+    id: bigint; // e.g., A324B30D9C1F6CFE
     rideable_type: string; // e.g., electric_bike
     started_at: number; // e.g., 2026-03-11 18:50:05.658
     ended_at: number; // e.g., 2026-03-11 19:02:07.383

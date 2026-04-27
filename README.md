@@ -44,6 +44,24 @@ The app will be available at http://localhost:8000.
 
 The SLA declaration can be found in the <a href="SLA.md">SLA.md</a> file.
 
+## ITIL4f Guiding Principles
+
+This project demonstrates the 7 ITIL4f guiding principles:
+
+| # | Principle | Application in this project |
+|---|-----------|------------------------------|
+| 1 | **Focus on value** | MVP approach - only essential features (list, detail, filter, CRUD) |
+| 2 | **Start where you are** | Built on existing Laravel/Inertia stack rather than from scratch |
+| 3 | **Progress iteratively** | Version 0.1.0 - minimal viable release |
+| 4 | **Collaborate and promote visibility** | Public codebase with documented value streams |
+| 5 | **Think and work holistically** | Full-stack integration (frontend + backend + database) |
+| 6 | **Keep it simple and practical** | Minimal dependencies, local SQLite |
+| 7 | **Optimize and automate** | Lazy loading, response compression, efficient queries |
+
+## ITIL4f Documentation
+
+For detailed service architecture and ITIL4f alignment, see <a href="ITIL.md">ITIL.md</a>.
+
 ## Version history
 
 <table>

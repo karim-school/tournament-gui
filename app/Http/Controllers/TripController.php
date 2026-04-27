@@ -6,7 +6,6 @@ use App\Http\Requests\StoreTripRecordRequest;
 use App\Http\Requests\UpdateTripRecordRequest;
 use App\Models\TripRecord;
 use Inertia\Inertia;
-use Inertia\Response;
 
 class TripController extends Controller
 {
@@ -17,6 +16,7 @@ class TripController extends Controller
     {
         try {
             $trips = TripRecord::all()->take(5);
+
             return Inertia::render('Trips/Index', [
                 'trips' => $trips->toResourceCollection()->resolve(),
             ]);
@@ -46,7 +46,7 @@ class TripController extends Controller
      */
     public function show(TripRecord $tripRecord)
     {
-        return Inertia::render('Trips/Show', [ 'trip' => $tripRecord->toResource()->resolve() ]);
+        return Inertia::render('Trips/Show', ['trip' => $tripRecord->toResource()->resolve()]);
     }
 
     /**

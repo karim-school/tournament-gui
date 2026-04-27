@@ -26,7 +26,7 @@ const mutableTrips: TripRecord[] = props.trips.map(trip => ({ ...trip, id: BigIn
             </tr>
             </thead>
             <tbody>
-            <tr v-for="(trip, index) in mutableTrips.sort((t1, t2) => t2.points - t1.points)" :key="index">
+            <tr v-for="(trip, index) in mutableTrips.sort((t1, t2) => t2.started_at - t1.started_at)" :key="index">
                 <td><Link :href="'/trips/' + trip.id.toString(16)">{{ trip.id.toString(16).toUpperCase() }}</Link></td>
                 <td>{{ trip.rideable_type }}</td>
                 <td>{{ new Date(trip.started_at * 1000).toISOString() }}</td>
