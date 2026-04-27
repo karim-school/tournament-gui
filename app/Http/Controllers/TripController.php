@@ -29,8 +29,8 @@ class TripController extends Controller
             if ($request->filled('station')) {
                 $stationSearch = '%'.$request->station.'%';
                 $query->where(function ($q) use ($stationSearch) {
-                    $q->whereHas('startStation', fn ($q) => $q->where('name', 'like', $stationSearch))
-                        ->orWhereHas('endStation', fn ($q) => $q->where('name', 'like', $stationSearch));
+                    $q->whereRaw('EXISTS (SELECT 1 FROM stations WHERE stations.name LIKE ? AND stations.id = trip_records.start_station_id AND stations.sub_id = trip_records.start_station_sub_id)', [$stationSearch])
+                        ->orWhereRaw('EXISTS (SELECT 1 FROM stations WHERE stations.name LIKE ? AND stations.id = trip_records.end_station_id AND stations.sub_id = trip_records.end_station_sub_id)', [$stationSearch]);
                 });
             }
 
