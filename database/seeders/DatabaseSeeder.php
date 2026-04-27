@@ -31,6 +31,6 @@ class DatabaseSeeder extends Seeder
                 ['id' => 4, 'sub_id' => 1],
             )->create();
 
-        TripRecord::factory()->count(10)->create();
+        TripRecord::factory()->count(75)->create();
     }
 }

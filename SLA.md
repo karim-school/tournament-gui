@@ -1,14 +1,14 @@
-# Service Level Agreement: CitiBike
+# Service Level Agreement: TripTrack
 
-Version: 0.1.0
+Version: 0.2.0
 
-Effective Date: 2026-04-20
+Effective Date: 2026-04-27
 
 Service Provider: Karim
 
 ## 1. Scope of Service
 
-This service provides a filterable list of publicly accessible CitiBike trip records with the aim to collect all the data in one place with easy lookup.
+This service provides a filterable list of publicly accessible trip records with the aim to collect all the data in one place with easy lookup.
 
 ### 1.2 Included Services
 - Comprehensible list of records.
@@ -16,7 +16,8 @@ This service provides a filterable list of publicly accessible CitiBike trip rec
 - Filters for finding records matching a certain criteria.
 - Function to add, modify and delete a record.
 - Responsive design.
-- Lazy loading.
+- Infinite scroll with data refresh.
+- Create form for new records.
 
 ### 1.3 Excluded Services
 - Data accuracy or otherwise correctness.

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Http\Resources\TripRecordResource;
 use Database\Factories\TripRecordFactory;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\UseResource;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -20,6 +21,20 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $member_casual
  */
 #[UseResource(TripRecordResource::class)]
+#[Fillable([
+    'rideable_type',
+    'started_at',
+    'ended_at',
+    'start_station_id',
+    'start_station_sub_id',
+    'end_station_id',
+    'end_station_sub_id',
+    'start_location_latitude',
+    'start_location_longitude',
+    'end_location_latitude',
+    'end_location_longitude',
+    'member_casual',
+])]
 class TripRecord extends Model
 {
     /**

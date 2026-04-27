@@ -3,41 +3,48 @@
 namespace Database\Factories;
 
 use App\Models\Station;
-use App\Models\TripRecord;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends Factory<TripRecord>
- */
 class TripRecordFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
-        $start_time = $this->faker->dateTimeThisDecade()->getTimestamp();
-        $end_time = $start_time + mt_rand(600, 64800);
-        $stations = Station::all(['id', 'sub_id'])->toArray();
-        $start_station = $stations[array_rand($stations)];
-        $end_station = $stations[array_rand($stations)];
+        $stations = Station::all()->toArray();
+
+        if (empty($stations)) {
+            $stations = [
+                ['id' => 1, 'sub_id' => 0, 'name' => 'Central Station'],
+                ['id' => 2, 'sub_id' => 0, 'name' => 'North Station'],
+                ['id' => 3, 'sub_id' => 0, 'name' => 'South Station'],
+                ['id' => 4, 'sub_id' => 0, 'name' => 'East Station'],
+            ];
+        }
+
+        $startStation = $stations[array_rand($stations)];
+        $endStation = $stations[array_rand($stations)];
+
+        while ($endStation['id'] === $startStation['id'] && count($stations) > 1) {
+            $endStation = $stations[array_rand($stations)];
+        }
+
+        $startTime = $this->faker->dateTimeThisYear();
+        $endTime = clone $startTime;
+        $endTime->modify(sprintf('+%d seconds', $this->faker->numberBetween(300, 7200)));
 
         return [
-            'id' => $this->faker->unique()->numberbetween(PHP_INT_MAX >> 1, PHP_INT_MAX),
-            'rideable_type' => 'electric_bike',
-            'started_at' => $start_time,
-            'ended_at' => $end_time,
-            'start_station_id' => $start_station['id'],
-            'start_station_sub_id' => $start_station['sub_id'],
-            'end_station_id' => $end_station['id'],
-            'end_station_sub_id' => $end_station['sub_id'],
-            'start_location_latitude' => $this->faker->latitude(),
-            'start_location_longitude' => $this->faker->longitude(),
-            'end_location_latitude' => $this->faker->latitude(),
-            'end_location_longitude' => $this->faker->longitude(),
-            'member_casual' => 'member',
+            'id' => $this->faker->unique()->numberBetween(PHP_INT_MAX >> 1, PHP_INT_MAX),
+            'rideable_type' => $this->faker->randomElement(['electric_bike', 'classic_bike']),
+            'started_at' => $startTime->format('Y-m-d H:i:s'),
+            'ended_at' => $endTime->format('Y-m-d H:i:s'),
+            'start_station_id' => $startStation['id'],
+            'start_station_sub_id' => $startStation['sub_id'],
+            'end_station_id' => $endStation['id'],
+            'end_station_sub_id' => $endStation['sub_id'],
+            'start_location_latitude' => $this->faker->latitude(40.7, 40.8),
+            'start_location_longitude' => $this->faker->longitude(-74.0, -73.9),
+            'end_location_latitude' => $this->faker->latitude(40.7, 40.8),
+            'end_location_longitude' => $this->faker->longitude(-74.0, -73.9),
+            'member_casual' => $this->faker->randomElement(['member', 'casual']),
         ];
     }
 }

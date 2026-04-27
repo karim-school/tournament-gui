@@ -1,18 +1,18 @@
-# ITIL4f Service Documentation: CitiBike
+# ITIL4f Service Documentation: TripTrack
 
-Version: 0.1.0
+Version: 0.2.0
 
-Effective Date: 2026-04-20
+Effective Date: 2026-04-27
 
-This document describes the service architecture, value streams, and ITIL4f alignment for the CitiBike trip records service.
+This document describes the service architecture, value streams, and ITIL4f alignment for the TripTrack trip records service.
 
 ---
 
 ## 1. Service Overview
 
-**Service Name:** CitiBike Trip Records
+**Service Name:** TripTrack Trip Records
 
-**Service Description:** A web-based service providing a filterable list of publicly accessible CitiBike trip records with comprehensive lookup, CRUD operations, and responsive design.
+**Service Description:** A web-based service providing a filterable list of publicly accessible trip records with comprehensive lookup, CRUD operations, filters, infinite scroll, and responsive design.
 
 **Service Type:** Information Service
 

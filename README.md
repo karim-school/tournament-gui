@@ -1,4 +1,4 @@
-# CitiBike
+# TripTrack
 
 ## Installation
 
@@ -52,7 +52,7 @@ This project demonstrates the 7 ITIL4f guiding principles:
 |---|-----------|------------------------------|
 | 1 | **Focus on value** | MVP approach - only essential features (list, detail, filter, CRUD) |
 | 2 | **Start where you are** | Built on existing Laravel/Inertia stack rather than from scratch |
-| 3 | **Progress iteratively** | Version 0.1.0 - minimal viable release |
+| 3 | **Progress iteratively** | Version 0.2.0 - filters, infinite scroll, create form |
 | 4 | **Collaborate and promote visibility** | Public codebase with documented value streams |
 | 5 | **Think and work holistically** | Full-stack integration (frontend + backend + database) |
 | 6 | **Keep it simple and practical** | Minimal dependencies, local SQLite |
@@ -65,6 +65,10 @@ For detailed service architecture and ITIL4f alignment, see <a href="ITIL.md">IT
 ## Version history
 
 <table>
+    <tr>
+        <th>2026-04-27</th>
+        <td>0.2.0</td>
+    </tr>
     <tr>
         <th>2026-04-20</th>
         <td>0.1.0</td>
