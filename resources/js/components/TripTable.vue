@@ -62,10 +62,8 @@ const formatDate = (timestamp: number | string): string => {
     });
 };
 
-const formatId = (id: bigint | number): string => {
-    const numId = typeof id === 'bigint' ? Number(id) : id;
-
-    return numId.toString(16).toUpperCase();
+const formatId = (id: string): string => {
+    return BigInt(id).toString(16).toUpperCase();
 };
 </script>
 

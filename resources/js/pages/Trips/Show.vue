@@ -6,9 +6,8 @@ const props = defineProps<{
     trip: TripRecord;
 }>();
 
-const formatId = (id: bigint | number): string => {
-    const numId = typeof id === 'bigint' ? Number(id) : id;
-    return numId.toString(16).toUpperCase();
+const formatId = (id: string): string => {
+    return BigInt(id).toString(16).toUpperCase();
 };
 
 const formatDate = (timestamp: number | string): string => {
@@ -57,7 +56,7 @@ const formatCoordinates = (lat: number, lng: number): string => {
                             Trip Details
                         </h1>
                         <p class="mt-2 text-gray-600 dark:text-gray-400">
-                            Trip ID: {{ formatId(trip.id) }}
+                            ID: {{ formatId(trip.id) }}
                         </p>
                     </div>
                     <div class="flex items-center space-x-3">
