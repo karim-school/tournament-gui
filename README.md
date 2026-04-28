@@ -40,6 +40,18 @@ To run the software, use:
 
 The app will be available at http://localhost:8000.
 
+## How to use
+
+When accessing the root of the site, you will be presented with a table of trips.
+You may click the ID of any of these trips to show a detailed view of that particular trip.
+
+You can also add a new trip by pressing the "Add New Trip" button above the trip table.
+In case you need to edit or delete a particular trip, you may go to the detailed view and do so using the buttons at the top.
+
+## Logging
+
+In case of errors during runtime, these will be logged to the `storage/logs/laravel.log` file.
+
 ## Service Level Agreement (SLA)
 
 The SLA declaration can be found in the <a href="SLA.md">SLA.md</a> file.
