@@ -20,10 +20,6 @@ class StoreTripRecordRequest extends FormRequest
             'ended_at' => ['required', 'date', 'after:started_at'],
             'start_station_id' => ['required', 'integer', 'exists:stations,id'],
             'end_station_id' => ['required', 'integer', 'exists:stations,id'],
-            'start_location_latitude' => ['nullable', 'numeric', 'min:-90', 'max:90'],
-            'start_location_longitude' => ['nullable', 'numeric', 'min:-180', 'max:180'],
-            'end_location_latitude' => ['nullable', 'numeric', 'min:-90', 'max:90'],
-            'end_location_longitude' => ['nullable', 'numeric', 'min:-180', 'max:180'],
             'member_casual' => ['required', Rule::in(['member', 'casual'])],
         ];
     }

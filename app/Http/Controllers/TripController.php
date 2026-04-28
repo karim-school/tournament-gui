@@ -112,10 +112,6 @@ class TripController extends Controller
                 'start_station_sub_id' => $startStation->sub_id,
                 'end_station_id' => $request->input('end_station_id'),
                 'end_station_sub_id' => $endStation->sub_id,
-                'start_location_latitude' => $request->input('start_location_latitude', 40.75),
-                'start_location_longitude' => $request->input('start_location_longitude', -73.95),
-                'end_location_latitude' => $request->input('end_location_latitude', 40.75),
-                'end_location_longitude' => $request->input('end_location_longitude', -73.95),
                 'member_casual' => $request->input('member_casual'),
             ]);
 
