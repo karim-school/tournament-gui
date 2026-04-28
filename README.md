@@ -79,6 +79,10 @@ For detailed service architecture and ITIL4f alignment, see <a href="ITIL.md">IT
 <table>
     <tr>
         <th>2026-04-28</th>
+        <td>0.3.1</td>
+    </tr>
+    <tr>
+        <th>2026-04-28</th>
         <td>0.3.0</td>
     </tr>
     <tr>
