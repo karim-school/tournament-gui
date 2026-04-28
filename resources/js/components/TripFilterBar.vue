@@ -9,6 +9,7 @@ const props = defineProps<{
         station: string;
         date_from: string;
         date_to: string;
+        min_duration: string;
     };
 }>();
 
@@ -25,13 +26,14 @@ const resetFilters = () => {
         station: '',
         date_from: '',
         date_to: '',
+        min_duration: '',
     };
 };
 </script>
 
 <template>
     <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 mb-4">
-        <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+        <div class="grid grid-cols-1 md:grid-cols-3 md:grid-rows-2 gap-4">
             <div>
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                     Ride Type
@@ -90,6 +92,18 @@ const resetFilters = () => {
                 <input
                     type="date"
                     v-model="localFilters.date_to"
+                    class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                />
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    Min. Duration
+                </label>
+                <input
+                    type="number"
+                    min="0"
+                    v-model="localFilters.min_duration"
                     class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                 />
             </div>

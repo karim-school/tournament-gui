@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, watch } from '@vue/runtime-core';
-import { Link, router } from '@inertiajs/vue3';
+import { Link } from '@inertiajs/vue3';
 import TripFilterBar from '@/components/TripFilterBar.vue';
 import TripTable from '@/components/TripTable.vue';
 import type { TripRecord } from '@/types';
@@ -16,6 +16,7 @@ const props = defineProps<{
         station: string;
         date_from: string;
         date_to: string;
+        min_duration: string;
     };
 }>();
 

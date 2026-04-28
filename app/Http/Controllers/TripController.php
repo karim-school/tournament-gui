@@ -7,14 +7,20 @@ use App\Http\Requests\UpdateTripRecordRequest;
 use App\Models\Station;
 use App\Models\TripRecord;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Schema;
 use Inertia\Inertia;
 
 class TripController extends Controller
 {
-    private const PER_PAGE = 20;
+    private const int PER_PAGE = 20;
 
     public function index(Request $request)
     {
+        if (!Schema::hasTable('trip_records')) {
+            return Inertia::render('Trips/Index', []);
+        }
+
         try {
             $query = TripRecord::query();
 
@@ -42,7 +48,12 @@ class TripController extends Controller
                 $query->where('started_at', '<=', $request->date_to.' 23:59:59');
             }
 
-            $page = (int) $request->get('page', 1);
+            if (($min_duration = $request->input('min_duration', 0)) > 0) {
+                //$query->whereRaw('DATEDIFF(minute, started_at, ended_at) >= ?', $min_duration);
+                $query->whereRaw('cast((julianday(ended_at) - julianday(started_at)) * 24 * 60 as integer) >= ?', $min_duration);
+            }
+
+            $page = (int) $request->input('page', 1);
             $totalCount = (clone $query)->count();
             $hasMore = ($page * self::PER_PAGE) < $totalCount;
 
@@ -64,14 +75,16 @@ class TripController extends Controller
                 'currentPage' => $page,
                 'totalCount' => $totalCount,
                 'filters' => [
-                    'rideable_type' => $request->get('rideable_type', 'all'),
-                    'member_casual' => $request->get('member_casual', 'all'),
-                    'station' => $request->get('station', ''),
-                    'date_from' => $request->get('date_from', ''),
-                    'date_to' => $request->get('date_to', ''),
+                    'rideable_type' => $request->input('rideable_type', 'all'),
+                    'member_casual' => $request->input('member_casual', 'all'),
+                    'station' => $request->input('station', ''),
+                    'date_from' => $request->input('date_from', ''),
+                    'date_to' => $request->input('date_to', ''),
+                    'min_duration' => $request->input('min_duration', ''),
                 ],
             ]);
-        } catch (\Throwable) {
+        } catch (\Throwable $e) {
+            Log::error($e);
             return abort(500);
         }
     }
