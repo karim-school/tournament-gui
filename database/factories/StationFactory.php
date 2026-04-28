@@ -23,4 +23,9 @@ class StationFactory extends Factory
             'name' => $this->faker->streetName(),
         ];
     }
+
+    protected function withFaker()
+    {
+        return fake('da_DK');
+    }
 }

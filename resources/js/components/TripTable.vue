@@ -47,7 +47,7 @@ watch(() => sentinel.value, () => {
 
 const formatDateOnly = (timestamp: number | string): string => {
     const date = new Date(timestamp);
-    return date.toLocaleDateString('en-US', {
+    return date.toLocaleDateString('da-DK', {
         month: 'short',
         day: 'numeric',
         year: 'numeric',
@@ -76,7 +76,7 @@ const formatId = (id: string): string => {
             <thead class="bg-gray-50 dark:bg-gray-800 sticky top-0">
                 <tr>
                     <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider" colspan="2">
-                        ID
+                        Trip ID
                     </th>
                     <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider" colspan="1">
                         Type
@@ -88,10 +88,10 @@ const formatId = (id: string): string => {
                         Duration
                     </th>
                     <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider" colspan="2">
-                        Start Stn
+                        Start Station
                     </th>
                     <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider" colspan="2">
-                        End Stn
+                        End Station
                     </th>
                     <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider" colspan="1">
                         Rider
@@ -109,7 +109,7 @@ const formatId = (id: string): string => {
                             {{ formatId(trip.id) }}
                         </Link>
                     </td>
-                    <td class="px-2 py-3 whitespace-nowrap text-center text-sm text-gray-500 dark:text-gray-400" colspan="1">
+                    <td class="px-2 py-3 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400" colspan="1">
                         <span
                             :class="trip.rideable_type === 'electric_bike' ? 'px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200' : 'px-2 py-1 text-xs rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'"
                         >
@@ -128,7 +128,7 @@ const formatId = (id: string): string => {
                     <td class="px-2 py-3 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100 truncate" colspan="2">
                         {{ trip.end_station?.name || 'Unknown' }}
                     </td>
-                    <td class="px-2 py-3 whitespace-nowrap text-center text-sm" colspan="1">
+                    <td class="px-2 py-3 whitespace-nowrap text-sm" colspan="1">
                         <span
                             :class="trip.member_casual === 'member' ? 'px-2 py-1 text-xs rounded-full bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200' : 'px-2 py-1 text-xs rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'"
                         >

@@ -57,7 +57,7 @@ const loadMore = async () => {
     <div class="min-h-screen bg-gray-50 dark:bg-gray-900">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <div class="mb-8">
-                <div class="flex items-center justify-between">
+                <div class="flex items-center justify-between flex-wrap gap-y-4">
                     <div>
                         <h1 class="text-3xl font-bold text-gray-900 dark:text-white">
                             TripTrack
@@ -68,7 +68,7 @@ const loadMore = async () => {
                     </div>
                     <Link
                         href="/trips/create"
-                        class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                        class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors whitespace-nowrap"
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />

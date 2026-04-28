@@ -12,7 +12,7 @@ const formatId = (id: string): string => {
 
 const formatDate = (timestamp: number | string): string => {
     const date = new Date(timestamp);
-    return date.toLocaleDateString('en-US', {
+    return date.toLocaleDateString('da-DK', {
         year: 'numeric',
         month: 'short',
         day: 'numeric',
@@ -44,7 +44,7 @@ const formatCoordinates = (lat: number, lng: number): string => {
     <div class="min-h-screen bg-gray-50 dark:bg-gray-900">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <div class="mb-8">
-                <div class="flex items-center justify-between">
+                <div class="flex items-center justify-between flex-wrap gap-y-4">
                     <div>
                         <Link
                             href="/trips"
@@ -55,7 +55,7 @@ const formatCoordinates = (lat: number, lng: number): string => {
                         <h1 class="mt-2 text-3xl font-bold text-gray-900 dark:text-white">
                             Trip Details
                         </h1>
-                        <p class="mt-2 text-gray-600 dark:text-gray-400">
+                        <p class="mt-2 text-gray-600 dark:text-gray-400 whitespace-nowrap">
                             ID: {{ formatId(trip.id) }}
                         </p>
                     </div>
@@ -97,13 +97,13 @@ const formatCoordinates = (lat: number, lng: number): string => {
                     </h2>
                 </div>
                 <div class="p-6">
-                    <div class="flex space-x-4">
+                    <div class="flex space-x-4 gap-y-4 flex-wrap">
                         <div class="flex items-center">
                             <span class="text-sm text-gray-500 dark:text-gray-400 mr-3">Type:</span>
                             <span
                                 :class="trip.rideable_type === 'electric_bike' ? 'px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200' : 'px-2 py-1 text-xs rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'"
                             >
-                                {{ trip.rideable_type === 'electric_bike' ? 'Electric' : 'Classic' }}
+                                {{ trip.rideable_type === 'electric_bike' ? 'E-Bike' : 'Bike' }}
                             </span>
                         </div>
                         <div class="flex items-center">
@@ -112,6 +112,11 @@ const formatCoordinates = (lat: number, lng: number): string => {
                                 :class="trip.member_casual === 'member' ? 'px-2 py-1 text-xs rounded-full bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200' : 'px-2 py-1 text-xs rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'"
                             >
                                 {{ trip.member_casual === 'member' ? 'Member' : 'Casual' }}
+                            </span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-sm text-gray-500 dark:text-gray-400 mr-3">Duration:</span>
+                            <span class="text-sm">{{ formatDuration(trip.started_at, trip.ended_at) }}
                             </span>
                         </div>
                     </div>
@@ -163,15 +168,6 @@ const formatCoordinates = (lat: number, lng: number): string => {
                             </p>
                         </div>
                     </div>
-                </div>
-            </div>
-
-            <div class="mt-6 bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
-                <div class="p-6">
-                    <p class="text-sm text-gray-500 dark:text-gray-400">Duration</p>
-                    <p class="mt-1 text-lg text-gray-900 dark:text-white">
-                        {{ formatDuration(trip.started_at, trip.ended_at) }}
-                    </p>
                 </div>
             </div>
         </div>
