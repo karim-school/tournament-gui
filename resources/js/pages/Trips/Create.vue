@@ -1,15 +1,18 @@
 <script setup lang="ts">
 import { useForm, Link } from '@inertiajs/vue3';
 import type { Station } from '@/types';
+import moment from 'moment';
 
 defineProps<{
     stations: Station[];
 }>();
 
+const currentTime = moment(Date.now()).format('YYYY-MM-DD HH:mm');
+
 const form = useForm({
     rideable_type: 'electric_bike',
-    started_at: '',
-    ended_at: '',
+    started_at: currentTime,
+    ended_at: currentTime,
     start_station_id: '',
     end_station_id: '',
     member_casual: 'member',

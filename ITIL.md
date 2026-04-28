@@ -1,6 +1,6 @@
 # ITIL4f Service Documentation: TripTrack
 
-Version: 0.3.1
+Version: 0.4.0
 
 Effective Date: 2026-04-28
 
