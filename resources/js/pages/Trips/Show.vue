@@ -21,6 +21,10 @@ const formatDate = (timestamp: number | string): string => {
     });
 };
 
+const pluralizeIfMultiple = (word: string, value: number): string => {
+    return `${word}${value !== 1 ? 's' : ''}`;
+}
+
 const formatDuration = (start: number | string, end: number | string): string => {
     const startDate = new Date(start);
     const endDate = new Date(end);
@@ -30,9 +34,14 @@ const formatDuration = (start: number | string, end: number | string): string =>
     const remainingMinutes = minutes % 60;
     
     if (hours === 0) {
-        return `${minutes} minute${minutes !== 1 ? 's' : ''}`;
+        return `${minutes} ${pluralizeIfMultiple('minute', minutes)}`;
     }
-    return `${hours} hour${hours !== 1 ? 's' : ''} ${remainingMinutes} minute${remainingMinutes !== 1 ? 's' : ''}`;
+
+    if (remainingMinutes === 0) {
+        return `${hours} ${pluralizeIfMultiple('hour', hours)}`;
+    }
+    
+    return `${hours} ${pluralizeIfMultiple('hour', hours)} ${remainingMinutes} ${pluralizeIfMultiple('minute', remainingMinutes)}`;
 };
 
 const formatCoordinates = (lat: number, lng: number): string => {
