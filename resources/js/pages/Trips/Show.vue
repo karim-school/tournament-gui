@@ -36,7 +36,7 @@ const formatDuration = (start: number | string, end: number | string): string =>
 };
 
 const formatCoordinates = (lat: number, lng: number): string => {
-    return `${lat.toFixed(4)}, ${lng.toFixed(4)}`;
+    return `${lat.toFixed(2)}, ${lng.toFixed(2)}`;
 };
 </script>
 
@@ -140,7 +140,7 @@ const formatCoordinates = (lat: number, lng: number): string => {
                         <div>
                             <p class="text-sm text-gray-500 dark:text-gray-400">Location</p>
                             <p class="mt-1 text-lg text-gray-900 dark:text-white">
-                                {{ trip.start_location ? formatCoordinates(trip.start_location.latitude, trip.start_location.longitude) : 'N/A' }}
+                                {{ trip.start_station.location ? formatCoordinates(trip.start_station.location.latitude, trip.start_station.location.longitude) : 'N/A' }}
                             </p>
                         </div>
                     </div>
@@ -164,7 +164,7 @@ const formatCoordinates = (lat: number, lng: number): string => {
                         <div>
                             <p class="text-sm text-gray-500 dark:text-gray-400">Location</p>
                             <p class="mt-1 text-lg text-gray-900 dark:text-white">
-                                {{ trip.end_location ? formatCoordinates(trip.end_location.latitude, trip.end_location.longitude) : 'N/A' }}
+                                {{ trip.end_station.location ? formatCoordinates(trip.end_station.location.latitude, trip.end_station.location.longitude) : 'N/A' }}
                             </p>
                         </div>
                     </div>

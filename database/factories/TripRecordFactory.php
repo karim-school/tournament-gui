@@ -23,13 +23,13 @@ class TripRecordFactory extends Factory
         $startStation = $stations[array_rand($stations)];
         $endStation = $stations[array_rand($stations)];
 
-        while ($endStation['id'] === $startStation['id'] && count($stations) > 1) {
+        while ($endStation['id'] === $startStation['id'] && \count($stations) > 1) {
             $endStation = $stations[array_rand($stations)];
         }
 
         $startTime = $this->faker->dateTimeThisYear();
         $endTime = clone $startTime;
-        $endTime->modify(sprintf('+%d seconds', $this->faker->numberBetween(300, 7200)));
+        $endTime->modify(\sprintf('+%d seconds', $this->faker->numberBetween(300, 7200)));
 
         return [
             'id' => $this->faker->unique()->numberBetween(PHP_INT_MAX >> 1, PHP_INT_MAX),
@@ -40,10 +40,6 @@ class TripRecordFactory extends Factory
             'start_station_sub_id' => $startStation['sub_id'],
             'end_station_id' => $endStation['id'],
             'end_station_sub_id' => $endStation['sub_id'],
-            'start_location_latitude' => $this->faker->latitude(40.7, 40.8),
-            'start_location_longitude' => $this->faker->longitude(-74.0, -73.9),
-            'end_location_latitude' => $this->faker->latitude(40.7, 40.8),
-            'end_location_longitude' => $this->faker->longitude(-74.0, -73.9),
             'member_casual' => $this->faker->randomElement(['member', 'casual']),
         ];
     }

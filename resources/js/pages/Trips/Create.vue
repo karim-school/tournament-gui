@@ -12,10 +12,6 @@ const form = useForm({
     ended_at: '',
     start_station_id: '',
     end_station_id: '',
-    start_location_latitude: 40.75,
-    start_location_longitude: -73.95,
-    end_location_latitude: 40.75,
-    end_location_longitude: -73.95,
     member_casual: 'member',
 });
 
@@ -145,54 +141,6 @@ const submit = () => {
                         <p v-if="form.errors.end_station_id" class="mt-1 text-sm text-red-600 dark:text-red-400">
                             {{ form.errors.end_station_id }}
                         </p>
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                            Start Latitude
-                        </label>
-                        <input
-                            v-model="form.start_location_latitude"
-                            type="number"
-                            step="any"
-                            class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                        />
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                            Start Longitude
-                        </label>
-                        <input
-                            v-model="form.start_location_longitude"
-                            type="number"
-                            step="any"
-                            class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                        />
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                            End Latitude
-                        </label>
-                        <input
-                            v-model="form.end_location_latitude"
-                            type="number"
-                            step="any"
-                            class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                        />
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                            End Longitude
-                        </label>
-                        <input
-                            v-model="form.end_location_longitude"
-                            type="number"
-                            step="any"
-                            class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                        />
                     </div>
                 </div>
 

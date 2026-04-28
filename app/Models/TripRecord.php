@@ -16,8 +16,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string $ended_at
  * @property Station $start_station
  * @property Station $end_station
- * @property string $start_location
- * @property string $end_location
  * @property string $member_casual
  */
 #[UseResource(TripRecordResource::class)]
@@ -29,10 +27,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
     'start_station_sub_id',
     'end_station_id',
     'end_station_sub_id',
-    'start_location_latitude',
-    'start_location_longitude',
-    'end_location_latitude',
-    'end_location_longitude',
     'member_casual',
 ])]
 class TripRecord extends Model
@@ -59,7 +53,15 @@ class TripRecord extends Model
             ->where('sub_id', $this->start_station_sub_id)
             ->first();
 
-        return $station ? ['id' => $station->id, 'sub_id' => $station->sub_id, 'name' => $station->name] : null;
+        return $station ? [
+            'id' => $station->id,
+            'sub_id' => $station->sub_id,
+            'name' => $station->name,
+            'location' => [
+                'latitude' => $station->latitude,
+                'longitude' => $station->longitude,
+            ],
+        ] : null;
     }
 
     public function getEndStationDataAttribute(): ?array
@@ -68,6 +70,14 @@ class TripRecord extends Model
             ->where('sub_id', $this->end_station_sub_id)
             ->first();
 
-        return $station ? ['id' => $station->id, 'sub_id' => $station->sub_id, 'name' => $station->name] : null;
+        return $station ? [
+            'id' => $station->id,
+            'sub_id' => $station->sub_id,
+            'name' => $station->name,
+            'location' => [
+                'latitude' => $station->latitude,
+                'longitude' => $station->longitude,
+            ],
+        ] : null;
     }
 }

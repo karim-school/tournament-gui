@@ -9,6 +9,7 @@ export type Station = {
     id: number; // e.g., 4368
     sub_id: number; // e.g., 5
     name: string; // e.g., Monroe St & Bedford Ave
+    location: WorldLocation;
 };
 
 export type TripRecord = {
@@ -18,7 +19,5 @@ export type TripRecord = {
     ended_at: number; // e.g., 2026-03-11 19:02:07.383
     start_station: Station;
     end_station: Station;
-    start_location: WorldLocation;
-    end_location: WorldLocation;
     member_casual: string; // e.g., member
 }

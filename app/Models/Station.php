@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id
  * @property int $sub_id
  * @property string $name
+ * @property float $latitude
+ * @property float $longitude
  */
 class Station extends Model
 {
