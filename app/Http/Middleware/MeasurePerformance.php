@@ -15,15 +15,15 @@ class MeasurePerformance
 
         $response = $next($request);
 
-        $durationMs = (microtime(true) - $start) * 1000;
+        $timeMs = (microtime(true) - $start) * 1000;
 
         Log::info('sli_response_time', [
-            'uri' => $request->uri(),
+            'uri' => $request->uri()->toString(),
             'method' => $request->method(),
-            'duration_ms' => round($durationMs, 2),
+            'time_ms' => round($timeMs, 2),
         ]);
 
-        $response->headers->set('X-Response-Time-Ms', round($durationMs, 2));
+        $response->headers->set('X-Response-Time-Ms', round($timeMs, 2));
 
         return $response;
     }
