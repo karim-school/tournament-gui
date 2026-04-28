@@ -36,7 +36,7 @@ const formatDuration = (start: number | string, end: number | string): string =>
 };
 
 const formatCoordinates = (lat: number, lng: number): string => {
-    return `${lat.toFixed(2)}, ${lng.toFixed(2)}`;
+    return `${lat.toFixed(2)}\u00b0 N, ${lng.toFixed(2)}\u00b0 W`;
 };
 </script>
 
@@ -125,46 +125,34 @@ const formatCoordinates = (lat: number, lng: number): string => {
 
             <div class="mt-6 bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
                 <div class="p-6 border-b border-gray-200 dark:border-gray-700">
-                    <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
-                        Start ({{ formatDate(trip.started_at) }})
+                    <h2 class="text-lg font-semibold text-gray-900 dark:text-white flex flex-wrap gap-x-4">
+                        <span class="whitespace-nowrap">{{ formatDate(trip.started_at) }}</span>
+                        <span class="whitespace-nowrap">-></span>
+                        <span class="whitespace-nowrap">{{ formatDate(trip.ended_at) }}</span>
                     </h2>
                 </div>
                 <div class="p-6">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <p class="text-sm text-gray-500 dark:text-gray-400">Station</p>
-                            <p class="mt-1 text-lg text-gray-900 dark:text-white">
-                                {{ trip.start_station?.name || 'Unknown' }}
+                            <p v-if="trip.start_station.name !== trip.end_station.name" class="mt-1 text-lg text-gray-900 dark:text-white flex flex-wrap gap-x-4">
+                                <span class="whitespace-nowrap">{{ trip.start_station?.name || 'Unknown' }}</span>
+                                <span class="whitespace-nowrap">-></span>
+                                <span class="whitespace-nowrap">{{ trip.end_station?.name || 'Unknown' }}</span>
+                            </p>
+                            <p v-else class="mt-1 text-lg text-gray-900 dark:text-white">
+                                <span class="whitespace-nowrap">{{ trip.start_station?.name || 'Unknown' }}</span>
                             </p>
                         </div>
                         <div>
                             <p class="text-sm text-gray-500 dark:text-gray-400">Location</p>
-                            <p class="mt-1 text-lg text-gray-900 dark:text-white">
-                                {{ trip.start_station.location ? formatCoordinates(trip.start_station.location.latitude, trip.start_station.location.longitude) : 'N/A' }}
+                            <p v-if="trip.start_station.name !== trip.end_station.name" class="mt-1 text-lg text-gray-900 dark:text-white flex flex-wrap gap-x-4">
+                                <span class="whitespace-nowrap">{{ trip.start_station.location ? formatCoordinates(trip.start_station.location.latitude, trip.start_station.location.longitude) : 'N/A' }}</span>
+                                <span class="whitespace-nowrap">-></span>
+                                <span class="whitespace-nowrap">{{ trip.end_station.location ? formatCoordinates(trip.end_station.location.latitude, trip.end_station.location.longitude) : 'N/A' }}</span>
                             </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="mt-6 bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
-                <div class="p-6 border-b border-gray-200 dark:border-gray-700">
-                    <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
-                        End ({{ formatDate(trip.ended_at) }})
-                    </h2>
-                </div>
-                <div class="p-6">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <p class="text-sm text-gray-500 dark:text-gray-400">Station</p>
-                            <p class="mt-1 text-lg text-gray-900 dark:text-white">
-                                {{ trip.end_station?.name || 'Unknown' }}
-                            </p>
-                        </div>
-                        <div>
-                            <p class="text-sm text-gray-500 dark:text-gray-400">Location</p>
-                            <p class="mt-1 text-lg text-gray-900 dark:text-white">
-                                {{ trip.end_station.location ? formatCoordinates(trip.end_station.location.latitude, trip.end_station.location.longitude) : 'N/A' }}
+                            <p v-else class="mt-1 text-lg text-gray-900 dark:text-white">
+                                <span class="whitespace-nowrap">{{ trip.start_station.location ? formatCoordinates(trip.start_station.location.latitude, trip.start_station.location.longitude) : 'N/A' }}</span>
                             </p>
                         </div>
                     </div>
