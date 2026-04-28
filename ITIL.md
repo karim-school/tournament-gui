@@ -1,8 +1,8 @@
 # ITIL4f Service Documentation: TripTrack
 
-Version: 0.2.2
+Version: 0.3.0
 
-Effective Date: 2026-04-27
+Effective Date: 2026-04-28
 
 This document describes the service architecture, value streams, and ITIL4f alignment for the TripTrack trip records service.
 
