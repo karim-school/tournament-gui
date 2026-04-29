@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref, watch } from '@vue/runtime-core';
 import { Link } from '@inertiajs/vue3';
+import { ref, watch } from 'vue';
 import TripFilterBar from '@/components/TripFilterBar.vue';
 import TripTable from '@/components/TripTable.vue';
 import type { TripRecord } from '@/types';
@@ -35,11 +35,14 @@ watch(() => props.trips, (newTrips) => {
 }, { deep: true });
 
 const loadMore = async () => {
-    if (isLoadingMore.value || !hasMoreData.value) return;
+    if (isLoadingMore.value || !hasMoreData.value) {
+return;
+}
+
     isLoadingMore.value = true;
     currentPageData.value++;
     const activeFilters = Object.fromEntries(
-        Object.entries(props.filters).filter(([_, v]) => v && v !== '')
+        Object.entries(props.filters).filter(([, v]) => v && v !== '')
     );
     const params = new URLSearchParams({
         ...activeFilters,

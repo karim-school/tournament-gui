@@ -17,7 +17,7 @@ class TripController extends Controller
 
     public function index(Request $request)
     {
-        if (!Schema::hasTable('trip_records')) {
+        if (! Schema::hasTable('trip_records')) {
             return Inertia::render('trips/Index', [
                 'trips' => [],
                 'hasMore' => false,
@@ -62,7 +62,7 @@ class TripController extends Controller
             }
 
             if (($min_duration = $request->input('min_duration', 0)) > 0) {
-                //$query->whereRaw('DATEDIFF(minute, started_at, ended_at) >= ?', $min_duration);
+                // $query->whereRaw('DATEDIFF(minute, started_at, ended_at) >= ?', $min_duration);
                 $query->whereRaw('cast((julianday(ended_at) - julianday(started_at)) * 24 * 60 as integer) >= ?', $min_duration);
             }
 
@@ -98,6 +98,7 @@ class TripController extends Controller
             ]);
         } catch (\Throwable $e) {
             Log::error($e);
+
             return abort(500);
         }
     }

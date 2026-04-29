@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, watch } from 'vue';
 import { Link } from '@inertiajs/vue3';
+import { ref, onMounted, onUnmounted, watch } from 'vue';
 import type { TripRecord } from '@/types';
 
 defineProps<{
@@ -17,11 +17,14 @@ const sentinel = ref<HTMLElement | null>(null);
 let observer: IntersectionObserver | null = null;
 
 const setupObserver = () => {
-    if (!sentinel.value) return;
+    if (!sentinel.value) {
+return;
+}
     
     observer = new IntersectionObserver(
         (entries) => {
             const entry = entries[0];
+
             if (entry.isIntersecting) {
                 emit('load:more');
             }
@@ -47,6 +50,7 @@ watch(() => sentinel.value, () => {
 
 const formatDateOnly = (timestamp: number | string): string => {
     const date = new Date(timestamp);
+
     return date.toLocaleDateString('da-DK', {
         month: 'short',
         day: 'numeric',
@@ -57,14 +61,18 @@ const formatDateOnly = (timestamp: number | string): string => {
 const formatDuration = (start: number, end: number): string => {
     const diff = new Date(end).getTime() - new Date(start).getTime();
     const minutes = Math.floor(diff / 60000);
+
     if (minutes < 60) {
         return `${minutes}m`;
     }
+
     const hours = Math.floor(minutes / 60);
     const mins = minutes % 60;
+
     if (mins === 0) {
         return `${hours}h`;
     }
+
     return `${hours}h ${mins}m`;
 };
 

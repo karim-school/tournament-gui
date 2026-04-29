@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useForm, Link } from '@inertiajs/vue3';
-import type { Station } from '@/types';
 import moment from 'moment';
+import type { Station } from '@/types';
 
 defineProps<{
     stations: Station[];

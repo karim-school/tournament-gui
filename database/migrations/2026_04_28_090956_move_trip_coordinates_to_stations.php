@@ -15,7 +15,7 @@ return new class extends Migration
             $table->float('latitude');
             $table->float('longitude');
         });
-        
+
         Schema::table('trip_records', function (Blueprint $table) {
             $table->dropColumn('start_location_latitude');
             $table->dropColumn('start_location_longitude');

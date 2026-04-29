@@ -2,7 +2,7 @@
 import { Link } from '@inertiajs/vue3';
 import type { TripRecord } from '@/types';
 
-const props = defineProps<{
+defineProps<{
     trip: TripRecord;
 }>();
 
@@ -12,6 +12,7 @@ const formatId = (id: string): string => {
 
 const formatDate = (timestamp: number | string): string => {
     const date = new Date(timestamp);
+
     return date.toLocaleDateString('da-DK', {
         year: 'numeric',
         month: 'short',
