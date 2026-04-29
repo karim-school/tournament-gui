@@ -18,7 +18,7 @@ createInertiaApp({
             case name.startsWith('settings/'):
                 return [AppLayout, SettingsLayout];
             case name.startsWith('trips/'):
-                return null;
+                return AppLayout;
             default:
                 return AppLayout;
         }

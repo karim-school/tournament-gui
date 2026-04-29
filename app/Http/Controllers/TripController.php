@@ -17,6 +17,10 @@ class TripController extends Controller
 
     public function index(Request $request)
     {
+        if (auth()->guest()) {
+            session(['url.intended' => url()->current()]);
+        }
+
         if (! Schema::hasTable('trip_records')) {
             return Inertia::render('trips/Index', [
                 'trips' => [],

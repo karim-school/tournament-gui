@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Link, usePage } from '@inertiajs/vue3';
-import { BookOpen, Folder, LayoutGrid, Menu, Search } from 'lucide-vue-next';
+import { /*BookOpen, Folder, LayoutGrid, */Menu, Search } from 'lucide-vue-next';
 import { computed } from 'vue';
 import AppLogo from '@/components/AppLogo.vue';
 import AppLogoIcon from '@/components/AppLogoIcon.vue';
@@ -35,15 +35,17 @@ import UserMenuContent from '@/components/UserMenuContent.vue';
 import { useCurrentUrl } from '@/composables/useCurrentUrl';
 import { getInitials } from '@/composables/useInitials';
 import { toUrl } from '@/lib/utils';
-import { dashboard } from '@/routes';
+import { /*dashboard, */login, register } from '@/routes';
 import type { BreadcrumbItem, NavItem } from '@/types';
 
 type Props = {
     breadcrumbs?: BreadcrumbItem[];
+    canRegister: boolean;
 };
 
 const props = withDefaults(defineProps<Props>(), {
     breadcrumbs: () => [],
+    canRegister: true,
 });
 
 const page = usePage();
@@ -54,24 +56,24 @@ const activeItemStyles =
     'text-neutral-900 dark:bg-neutral-800 dark:text-neutral-100';
 
 const mainNavItems: NavItem[] = [
-    {
-        title: 'Dashboard',
-        href: dashboard(),
-        icon: LayoutGrid,
-    },
+//    {
+//        title: 'Dashboard',
+//        href: dashboard(),
+//        icon: LayoutGrid,
+//    },
 ];
 
 const rightNavItems: NavItem[] = [
-    {
-        title: 'Repository',
-        href: 'https://github.com/laravel/vue-starter-kit',
-        icon: Folder,
-    },
-    {
-        title: 'Documentation',
-        href: 'https://laravel.com/docs/starter-kits#vue',
-        icon: BookOpen,
-    },
+//    {
+//        title: 'Repository',
+//        href: 'https://github.com/laravel/vue-starter-kit',
+//        icon: Folder,
+//    },
+//    {
+//        title: 'Documentation',
+//        href: 'https://laravel.com/docs/starter-kits#vue',
+//        icon: BookOpen,
+//    },
 ];
 </script>
 
@@ -146,13 +148,13 @@ const rightNavItems: NavItem[] = [
                     </Sheet>
                 </div>
 
-                <Link :href="dashboard()" class="flex items-center gap-x-2">
+                <Link class="flex items-center gap-x-2" v-show="false">
                     <AppLogo />
                 </Link>
 
                 <!-- Desktop Menu -->
                 <div class="hidden h-full lg:flex lg:flex-1">
-                    <NavigationMenu class="ml-10 flex h-full items-stretch">
+                    <NavigationMenu :class="false ? 'ml-10 flex h-full items-stretch' : 'flex h-full items-stretch'">
                         <NavigationMenuList
                             class="flex h-full items-stretch space-x-2"
                         >
@@ -190,7 +192,7 @@ const rightNavItems: NavItem[] = [
 
                 <div class="ml-auto flex items-center space-x-2">
                     <div class="relative flex items-center space-x-1">
-                        <Button
+                        <Button v-show="false"
                             variant="ghost"
                             size="icon"
                             class="group h-9 w-9 cursor-pointer"
@@ -238,7 +240,7 @@ const rightNavItems: NavItem[] = [
                         </div>
                     </div>
 
-                    <DropdownMenu>
+                    <DropdownMenu v-if="auth.user">
                         <DropdownMenuTrigger :as-child="true">
                             <Button
                                 variant="ghost"
@@ -265,6 +267,21 @@ const rightNavItems: NavItem[] = [
                             <UserMenuContent :user="auth.user" />
                         </DropdownMenuContent>
                     </DropdownMenu>
+                    <div v-else>
+                        <Link
+                            :href="login()"
+                            class="inline-block rounded-sm border border-transparent px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#19140035] dark:text-[#EDEDEC] dark:hover:border-[#3E3E3A]"
+                        >
+                            Log in
+                        </Link>
+                        <Link
+                            v-if="canRegister"
+                            :href="register()"
+                            class="inline-block rounded-sm border border-transparent px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#1915014a] dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:border-[#62605b]"
+                        >
+                            Register
+                        </Link>
+                    </div>
                 </div>
             </div>
         </div>
