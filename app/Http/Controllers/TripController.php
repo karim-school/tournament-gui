@@ -18,7 +18,20 @@ class TripController extends Controller
     public function index(Request $request)
     {
         if (!Schema::hasTable('trip_records')) {
-            return Inertia::render('Trips/Index', []);
+            return Inertia::render('trips/Index', [
+                'trips' => [],
+                'hasMore' => false,
+                'currentPage' => 1,
+                'totalCount' => 0,
+                'filters' => [
+                    'rideable_type' => $request->input('rideable_type', 'all'),
+                    'member_casual' => $request->input('member_casual', 'all'),
+                    'station' => $request->input('station', ''),
+                    'date_from' => $request->input('date_from', ''),
+                    'date_to' => $request->input('date_to', ''),
+                    'min_duration' => $request->input('min_duration', ''),
+                ],
+            ]);
         }
 
         try {
@@ -69,7 +82,7 @@ class TripController extends Controller
                 ]);
             }
 
-            return Inertia::render('Trips/Index', [
+            return Inertia::render('trips/Index', [
                 'trips' => $trips->toResourceCollection()->resolve(),
                 'hasMore' => $hasMore,
                 'currentPage' => $page,
@@ -93,7 +106,7 @@ class TripController extends Controller
     {
         $stations = Station::all();
 
-        return Inertia::render('Trips/Create', [
+        return Inertia::render('trips/Create', [
             'stations' => $stations,
         ]);
     }
@@ -123,7 +136,7 @@ class TripController extends Controller
 
     public function show(TripRecord $tripRecord)
     {
-        return Inertia::render('Trips/Show', ['trip' => $tripRecord->toResource()->resolve()]);
+        return Inertia::render('trips/Show', ['trip' => $tripRecord->toResource()->resolve()]);
     }
 
     public function edit(TripRecord $tripRecord)

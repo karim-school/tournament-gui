@@ -1,8 +1,15 @@
 <?php
 
-use App\Http\Controllers\TripController;
 use Illuminate\Support\Facades\Route;
+use Laravel\Fortify\Features;
 
-Route::get('/', [TripController::class, 'index'])->name('home');
+Route::inertia('/', 'Welcome', [
+    'canRegister' => Features::enabled(Features::registration()),
+])->name('home');
 
-Route::resource('trips', TripController::class)->only(['index', 'show', 'create', 'store']);
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::inertia('dashboard', 'Dashboard')->name('dashboard');
+});
+
+require __DIR__.'/settings.php';
+require __DIR__.'/trips.php';
