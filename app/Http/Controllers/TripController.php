@@ -171,6 +171,11 @@ class TripController extends Controller
 
     public function destroy(TripRecord $tripRecord)
     {
-        //
+        if (! auth()->check()) {
+            abort(403);
+        }
+
+        TripRecord::destroy($tripRecord->id);
+        return redirect()->route('home')->with('success', 'Trip record deleted successfully.');
     }
 }
