@@ -40,7 +40,7 @@ import type { BreadcrumbItem, NavItem } from '@/types';
 
 type Props = {
     breadcrumbs?: BreadcrumbItem[];
-    canRegister: boolean;
+    canRegister?: boolean;
 };
 
 const props = withDefaults(defineProps<Props>(), {
@@ -148,7 +148,7 @@ const rightNavItems: NavItem[] = [
                     </Sheet>
                 </div>
 
-                <Link class="flex items-center gap-x-2" v-show="false">
+                <Link class="flex items-center gap-x-2" v-if="false">
                     <AppLogo />
                 </Link>
 
@@ -192,7 +192,7 @@ const rightNavItems: NavItem[] = [
 
                 <div class="ml-auto flex items-center space-x-2">
                     <div class="relative flex items-center space-x-1">
-                        <Button v-show="false"
+                        <Button v-if="false"
                             variant="ghost"
                             size="icon"
                             class="group h-9 w-9 cursor-pointer"
