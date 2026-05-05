@@ -21,7 +21,7 @@ class TripController extends Controller
 
     public function index(Request $request): JsonResponse|Response
     {
-        if (!auth()->check()) {
+        if (! auth()->check()) {
             session(['url.intended' => url()->current()]);
         }
 
@@ -112,7 +112,7 @@ class TripController extends Controller
 
     public function create(): Response|RedirectResponse
     {
-        if (!auth()->check()) {
+        if (! auth()->check()) {
             return redirect()->route('home');
         }
 
@@ -125,7 +125,7 @@ class TripController extends Controller
 
     public function store(StoreTripRecordRequest $request): Redirector|RedirectResponse
     {
-        if (!auth()->check()) {
+        if (! auth()->check()) {
             abort(403);
         }
 
@@ -152,7 +152,7 @@ class TripController extends Controller
 
     public function show(TripRecord $tripRecord): Response
     {
-        if (!auth()->check()) {
+        if (! auth()->check()) {
             session(['url.intended' => url()->current()]);
         }
 
