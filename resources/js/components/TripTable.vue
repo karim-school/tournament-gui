@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
 import { ref, onMounted, onUnmounted, watch } from 'vue';
-import type { TripRecord } from '@/types';
 import TripController from '@/actions/App/Http/Controllers/TripController';
+import type { TripRecord } from '@/types';
 
 defineProps<{
     trips: TripRecord[];

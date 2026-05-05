@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
 import { ref, watch } from 'vue';
+import TripController from '@/actions/App/Http/Controllers/TripController';
 import TripFilterBar from '@/components/TripFilterBar.vue';
 import TripTable from '@/components/TripTable.vue';
 import type { TripRecord } from '@/types';
-import TripController from '@/actions/App/Http/Controllers/TripController';
 
 const props = defineProps<{
     trips: TripRecord[];

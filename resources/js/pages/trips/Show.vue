@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Link, router } from '@inertiajs/vue3';
-import type { TripRecord } from '@/types';
 import TripController from '@/actions/App/Http/Controllers/TripController';
+import type { TripRecord } from '@/types';
 
 defineProps<{
     trip: TripRecord;

@@ -125,10 +125,6 @@ class TripController extends Controller
 
     public function store(StoreTripRecordRequest $request): Redirector|RedirectResponse
     {
-        if (! auth()->check()) {
-            abort(403);
-        }
-
         try {
             $startStation = Station::findOrFail($request->input('start_station_id'));
             $endStation = Station::findOrFail($request->input('end_station_id'));
@@ -159,23 +155,41 @@ class TripController extends Controller
         return Inertia::render('trips/Show', ['trip' => $tripRecord->toResource()->resolve()]);
     }
 
-    public function edit(TripRecord $tripRecord)
+    public function edit(TripRecord $tripRecord): Response|RedirectResponse
     {
-        //
+        if (! auth()->check()) {
+            return redirect()->route('home');
+        }
+
+        $stations = Station::all();
+
+        return Inertia::render('trips/Edit', [
+            'trip' => $tripRecord->toResource()->resolve(),
+            'stations' => $stations,
+        ]);
     }
 
-    public function update(UpdateTripRecordRequest $request, TripRecord $tripRecord)
+    public function update(UpdateTripRecordRequest $request, TripRecord $tripRecord): RedirectResponse
     {
-        //
+        $tripRecord->update([
+            'rideable_type' => $request->input('rideable_type'),
+            'started_at' => $request->input('started_at'),
+            'ended_at' => $request->input('ended_at'),
+            'start_station_id' => $request->input('start_station_id'),
+            'end_station_id' => $request->input('end_station_id'),
+        ]);
+
+        return redirect()->route('trips.show', dechex($tripRecord->id))->with('success', 'Trip updated successfully.');
     }
 
-    public function destroy(TripRecord $tripRecord)
+    public function destroy(TripRecord $tripRecord): RedirectResponse
     {
         if (! auth()->check()) {
             abort(403);
         }
 
         TripRecord::destroy($tripRecord->id);
+
         return redirect()->route('home')->with('success', 'Trip record deleted successfully.');
     }
 }
