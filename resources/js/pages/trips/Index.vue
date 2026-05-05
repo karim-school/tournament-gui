@@ -4,6 +4,7 @@ import { ref, watch } from 'vue';
 import TripFilterBar from '@/components/TripFilterBar.vue';
 import TripTable from '@/components/TripTable.vue';
 import type { TripRecord } from '@/types';
+import TripController from '@/actions/App/Http/Controllers/TripController';
 
 const props = defineProps<{
     trips: TripRecord[];
@@ -71,7 +72,7 @@ return;
                         </p>
                     </div>
                     <Link v-if="$page.props.auth.user"
-                        href="/trips/create"
+                        :href="TripController.create()"
                         class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors whitespace-nowrap"
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">

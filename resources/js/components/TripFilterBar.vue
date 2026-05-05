@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { router } from '@inertiajs/vue3';
 import { ref, watch } from 'vue';
+import TripController from '@/actions/App/Http/Controllers/TripController';
 
 const props = defineProps<{
     filters: {
@@ -16,7 +17,7 @@ const props = defineProps<{
 const localFilters = ref({ ...props.filters });
 
 watch(localFilters, () => {
-    router.get('/', localFilters.value, { preserveState: true });
+    router.get(TripController.index(), localFilters.value, { preserveState: true });
 }, { deep: true });
 
 const resetFilters = () => {
