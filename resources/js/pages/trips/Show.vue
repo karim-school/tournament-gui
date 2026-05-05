@@ -33,7 +33,7 @@ const formatDuration = (start: number | string, end: number | string): string =>
     const minutes = Math.floor(diffMs / 60000);
     const hours = Math.floor(minutes / 60);
     const remainingMinutes = minutes % 60;
-    
+
     if (hours === 0) {
         return `${minutes} ${pluralizeIfMultiple('minute', minutes)}`;
     }
@@ -41,7 +41,7 @@ const formatDuration = (start: number | string, end: number | string): string =>
     if (remainingMinutes === 0) {
         return `${hours} ${pluralizeIfMultiple('hour', hours)}`;
     }
-    
+
     return `${hours} ${pluralizeIfMultiple('hour', hours)} ${remainingMinutes} ${pluralizeIfMultiple('minute', remainingMinutes)}`;
 };
 
@@ -57,7 +57,7 @@ const formatCoordinates = (lat: number, lng: number): string => {
                 <div class="flex items-center justify-between flex-wrap gap-y-4">
                     <div>
                         <Link
-                            href="/trips"
+                            href="/"
                             class="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
                         >
                             ← Back to Trips
@@ -70,7 +70,7 @@ const formatCoordinates = (lat: number, lng: number): string => {
                         </p>
                     </div>
                     <div class="flex items-center space-x-3">
-                        <Link
+                        <Link v-if="$page.props.auth.user"
                             :href="`/trips/${trip.id}/edit`"
                             class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
                         >
@@ -79,7 +79,7 @@ const formatCoordinates = (lat: number, lng: number): string => {
                             </svg>
                             Edit
                         </Link>
-                        <form
+                        <form v-if="$page.props.auth.user"
                             :action="`/trips/${trip.id}`"
                             method="POST"
                             @submit.prevent="confirm('Are you sure you want to delete this trip?') && $el.submit()"

@@ -16,7 +16,7 @@ const props = defineProps<{
 const localFilters = ref({ ...props.filters });
 
 watch(localFilters, () => {
-    router.get('/trips', localFilters.value, { preserveState: true });
+    router.get('/', localFilters.value, { preserveState: true });
 }, { deep: true });
 
 const resetFilters = () => {

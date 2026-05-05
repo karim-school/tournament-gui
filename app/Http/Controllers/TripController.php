@@ -6,18 +6,22 @@ use App\Http\Requests\StoreTripRecordRequest;
 use App\Http\Requests\UpdateTripRecordRequest;
 use App\Models\Station;
 use App\Models\TripRecord;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schema;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class TripController extends Controller
 {
     private const int PER_PAGE = 20;
 
-    public function index(Request $request)
+    public function index(Request $request): JsonResponse|Response
     {
-        if (auth()->guest()) {
+        if (!auth()->check()) {
             session(['url.intended' => url()->current()]);
         }
 
@@ -102,13 +106,16 @@ class TripController extends Controller
             ]);
         } catch (\Throwable $e) {
             Log::error($e);
-
-            return abort(500);
+            abort(500);
         }
     }
 
-    public function create()
+    public function create(): Response|RedirectResponse
     {
+        if (!auth()->check()) {
+            return redirect()->route('home');
+        }
+
         $stations = Station::all();
 
         return Inertia::render('trips/Create', [
@@ -116,8 +123,12 @@ class TripController extends Controller
         ]);
     }
 
-    public function store(StoreTripRecordRequest $request)
+    public function store(StoreTripRecordRequest $request): Redirector|RedirectResponse
     {
+        if (!auth()->check()) {
+            abort(403);
+        }
+
         try {
             $startStation = Station::findOrFail($request->input('start_station_id'));
             $endStation = Station::findOrFail($request->input('end_station_id'));
@@ -133,14 +144,18 @@ class TripController extends Controller
                 'member_casual' => $request->input('member_casual'),
             ]);
 
-            return redirect('/trips')->with('success', 'Trip record created successfully.');
+            return redirect()->route('home')->with('success', 'Trip record created successfully.');
         } catch (\Throwable $e) {
             return back()->with('error', 'Failed to create trip record: '.$e->getMessage());
         }
     }
 
-    public function show(TripRecord $tripRecord)
+    public function show(TripRecord $tripRecord): Response
     {
+        if (!auth()->check()) {
+            session(['url.intended' => url()->current()]);
+        }
+
         return Inertia::render('trips/Show', ['trip' => $tripRecord->toResource()->resolve()]);
     }
 

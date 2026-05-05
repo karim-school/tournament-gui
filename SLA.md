@@ -1,6 +1,6 @@
 # Service Level Agreement: TripTrack
 
-Version: 0.4.0
+Version: 0.4.1
 
 Effective Date: 2026-04-28
 

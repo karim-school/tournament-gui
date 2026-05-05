@@ -31,7 +31,7 @@ const submit = () => {
     <div class="min-h-screen bg-gray-50 dark:bg-gray-900">
         <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <div class="mb-8">
-                <Link href="/trips" class="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 text-sm">
+                <Link href="/" class="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 text-sm">
                     ← Back to Trips
                 </Link>
                 <h1 class="mt-4 text-3xl font-bold text-gray-900 dark:text-white">
@@ -149,7 +149,7 @@ const submit = () => {
 
                 <div class="mt-6 flex justify-end gap-4">
                     <Link
-                        href="/trips"
+                        href="/"
                         class="px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
                     >
                         Cancel

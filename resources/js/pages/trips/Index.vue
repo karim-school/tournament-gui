@@ -49,7 +49,7 @@ return;
         api: 'true',
         page: currentPageData.value.toString(),
     }).toString();
-    const response = await fetch(`/trips?${params}`);
+    const response = await fetch(`/?${params}`);
     const data = await response.json();
     allTrips.value = [...allTrips.value, ...data.trips];
     hasMoreData.value = data.hasMore;
@@ -70,7 +70,7 @@ return;
                             Browse and filter trip records. Showing {{ totalCount }} total records.
                         </p>
                     </div>
-                    <Link
+                    <Link v-if="$page.props.auth.user"
                         href="/trips/create"
                         class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors whitespace-nowrap"
                     >
