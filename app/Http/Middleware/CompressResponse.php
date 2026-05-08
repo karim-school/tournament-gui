@@ -17,7 +17,7 @@ class CompressResponse
     {
         $response = $next($request);
 
-        if (!$request->hasHeader('Accept-Encoding')) {
+        if (! $request->hasHeader('Accept-Encoding')) {
             return $response;
         }
 

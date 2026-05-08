@@ -1,14 +1,14 @@
-# Service Level Agreement: CitiBike
+# Service Level Agreement: TripTrack
 
-Version: 0.1.0
+Version: 0.4.1
 
-Effective Date: 2026-04-20
+Effective Date: 2026-04-28
 
 Service Provider: Karim
 
 ## 1. Scope of Service
 
-This service provides a filterable list of publicly accessible CitiBike trip records with the aim to collect all the data in one place with easy lookup.
+This service provides a filterable list of publicly accessible trip records with the aim to collect all the data in one place with easy lookup.
 
 ### 1.2 Included Services
 - Comprehensible list of records.
@@ -16,7 +16,8 @@ This service provides a filterable list of publicly accessible CitiBike trip rec
 - Filters for finding records matching a certain criteria.
 - Function to add, modify and delete a record.
 - Responsive design.
-- Lazy loading.
+- Infinite scroll with data refresh.
+- Create form for new records.
 
 ### 1.3 Excluded Services
 - Data accuracy or otherwise correctness.
@@ -79,3 +80,35 @@ This service provides a filterable list of publicly accessible CitiBike trip rec
         </tr>
     </tbody>
 </table>
+
+## 4. Service Ownership
+
+| Role | Name | Contact |
+|------|------|---------|
+| Service Owner | Karim | [Your contact] |
+| Service Level Manager | Karim | [Your contact] |
+
+## 5. Service Value Chain
+
+This service follows the ITIL4f value chain model:
+
+| Activity | Implementation |
+|----------|---------------|
+| Engage | Route matching, request handling |
+| Design & Build | Controller processing, model operations |
+| Deploy & Operate | Server runtime, database queries |
+| Obtain & Assure | Response delivery, error handling |
+| Continue | Feature iterations |
+
+## 6. Four Dimensions Summary
+
+| Dimension | Coverage |
+|-----------|----------|
+| Organizations & People | Single developer (self) |
+| Information & Technology | Laravel, Vue.js, SQLite |
+| Partners & Suppliers | Open-source dependencies |
+| Value Streams | Request → Response flow |
+
+---
+
+*For detailed ITIL4f documentation, see [ITIL.md](ITIL.md).*

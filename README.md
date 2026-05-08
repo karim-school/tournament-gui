@@ -1,4 +1,4 @@
-# CitiBike
+# TripTrack
 
 ## Installation
 
@@ -40,13 +40,71 @@ To run the software, use:
 
 The app will be available at http://localhost:8000.
 
+## How to use
+
+When accessing the root of the site, you will be presented with a table of trips.
+You may click the ID of any of these trips to show a detailed view of that particular trip.
+
+You can also add a new trip by pressing the "Add New Trip" button above the trip table.
+In case you need to edit or delete a particular trip, you may go to the detailed view and do so using the buttons at the top.
+
+## Logging
+
+In case of errors during runtime, these will be logged to the `storage/logs/laravel.log` file.
+
 ## Service Level Agreement (SLA)
 
 The SLA declaration can be found in the <a href="SLA.md">SLA.md</a> file.
 
+## ITIL4f Guiding Principles
+
+This project demonstrates the 7 ITIL4f guiding principles:
+
+| # | Principle | Application in this project |
+|---|-----------|------------------------------|
+| 1 | **Focus on value** | MVP approach - only essential features (list, detail, filter, CRUD) |
+| 2 | **Start where you are** | Built on existing Laravel/Inertia stack rather than from scratch |
+| 3 | **Progress iteratively** | Version 0.2.0 - filters, infinite scroll, create form |
+| 4 | **Collaborate and promote visibility** | Public codebase with documented value streams |
+| 5 | **Think and work holistically** | Full-stack integration (frontend + backend + database) |
+| 6 | **Keep it simple and practical** | Minimal dependencies, local SQLite |
+| 7 | **Optimize and automate** | Lazy loading, response compression, efficient queries |
+
+## ITIL4f Documentation
+
+For detailed service architecture and ITIL4f alignment, see <a href="ITIL.md">ITIL.md</a>.
+
 ## Version history
 
 <table>
+    <tr>
+        <th>2026-05-05</th>
+        <td>0.4.1</td>
+    </tr>
+    <tr>
+        <th>2026-04-28</th>
+        <td>0.4.0</td>
+    </tr>
+    <tr>
+        <th>2026-04-28</th>
+        <td>0.3.1</td>
+    </tr>
+    <tr>
+        <th>2026-04-28</th>
+        <td>0.3.0</td>
+    </tr>
+    <tr>
+        <th>2026-04-27</th>
+        <td>0.2.2</td>
+    </tr>
+    <tr>
+        <th>2026-04-27</th>
+        <td>0.2.1</td>
+    </tr>
+    <tr>
+        <th>2026-04-27</th>
+        <td>0.2.0</td>
+    </tr>
     <tr>
         <th>2026-04-20</th>
         <td>0.1.0</td>

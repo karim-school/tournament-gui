@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id
  * @property int $sub_id
  * @property string $name
+ * @property float $latitude
+ * @property float $longitude
  */
 class Station extends Model
 {
@@ -20,8 +22,8 @@ class Station extends Model
 
     public $timestamps = false;
 
-    public static function find(int $id, int $sub_id): ?Station
+    public static function findByIdAndSubId(int $id, int $sub_id): ?Station
     {
-        return Station::query()->where([ 'id' => $id, 'sub_id' => $sub_id ])->first();
+        return Station::query()->where(['id' => $id, 'sub_id' => $sub_id])->first();
     }
 }

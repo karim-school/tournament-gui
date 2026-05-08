@@ -50,7 +50,7 @@ class AppServiceProvider extends ServiceProvider
         );
 
         Route::bind('trip', function ($value) {
-            return TripRecord::query()->find(hexdec($value));
+            return TripRecord::query()->find(hexdec($value)) ?? abort(404);
         });
     }
 }

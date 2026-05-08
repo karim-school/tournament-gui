@@ -21,6 +21,13 @@ class StationFactory extends Factory
             'id' => 1,
             'sub_id' => 0,
             'name' => $this->faker->streetName(),
+            'latitude' => $this->faker->latitude(),
+            'longitude' => $this->faker->longitude(),
         ];
+    }
+
+    protected function withFaker()
+    {
+        return fake('da_DK');
     }
 }
