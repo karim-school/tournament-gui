@@ -2,11 +2,9 @@
 
 namespace App\Providers;
 
-use App\Models\TripRecord;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
 
@@ -48,9 +46,5 @@ class AppServiceProvider extends ServiceProvider
                 ->uncompromised()
             : null,
         );
-
-        Route::bind('trip', function ($value) {
-            return TripRecord::query()->find(hexdec($value)) ?? abort(404);
-        });
     }
 }

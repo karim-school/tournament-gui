@@ -1,3 +1,8 @@
+export enum Membership {
+    GUEST = 'guest',
+    MEMBER = 'member',
+}
+
 export type User = {
     id: number;
     name: string;
@@ -7,6 +12,7 @@ export type User = {
     created_at: string;
     updated_at: string;
     [key: string]: unknown;
+    membership?: Membership;
 };
 
 export type Auth = {

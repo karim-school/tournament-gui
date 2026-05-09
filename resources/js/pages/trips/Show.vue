@@ -1,15 +1,12 @@
 <script setup lang="ts">
 import { Link, router } from '@inertiajs/vue3';
 import TripController from '@/actions/App/Http/Controllers/TripController';
+import { formatMembership, formatRideType, membershipClasses, rideTypeClasses } from '@/lib/utils';
 import type { TripRecord } from '@/types';
 
 defineProps<{
     trip: TripRecord;
 }>();
-
-const formatId = (id: string): string => {
-    return BigInt(id).toString(16).toUpperCase();
-};
 
 const formatDate = (timestamp: number | string): string => {
     const date = new Date(timestamp);
@@ -52,7 +49,7 @@ const formatCoordinates = (lat: number, lng: number): string => {
 
 const promptDeletion = (id) => {
     if (confirm('Are you sure you want to delete this trip?')) {
-        router.delete(TripController.destroy(formatId(id)))
+        router.delete(TripController.destroy(id))
     }
 }
 </script>
@@ -73,12 +70,12 @@ const promptDeletion = (id) => {
                             Trip Details
                         </h1>
                         <p class="mt-2 text-gray-600 dark:text-gray-400 whitespace-nowrap">
-                            ID: {{ formatId(trip.id) }}
+                            ID: {{ trip.id }}
                         </p>
                     </div>
                     <div class="flex items-center space-x-3">
-                        <Link v-if="$page.props.auth.user"
-                            :href="TripController.edit(formatId(trip.id))"
+                        <Link v-if="$page.props.auth.user && $page.props.auth.user.id === trip.user.id"
+                            :href="TripController.edit(trip.id)"
                             class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
@@ -86,7 +83,7 @@ const promptDeletion = (id) => {
                             </svg>
                             Edit
                         </Link>
-                        <button v-if="$page.props.auth.user"
+                        <button v-if="$page.props.auth.user && $page.props.auth.user.id === trip.user.id"
                                 @click="promptDeletion(trip.id)"
                                 class="inline-flex items-center px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
                         >
@@ -106,21 +103,18 @@ const promptDeletion = (id) => {
                     </h2>
                 </div>
                 <div class="p-6">
+                    <div class="flex space-x-4 gap-y-4 flex-wrap mb-2">
+                        <span class="text-sm text-gray-500 dark:text-gray-400 mr-3">Rider:</span>
+                        <span class="text-sm">{{ trip.user.name }}</span>
+                        <span :class="membershipClasses(trip.user.membership)">
+                            {{ formatMembership(trip.user.membership) }}
+                        </span>
+                    </div>
                     <div class="flex space-x-4 gap-y-4 flex-wrap">
                         <div class="flex items-center">
                             <span class="text-sm text-gray-500 dark:text-gray-400 mr-3">Type:</span>
-                            <span
-                                :class="trip.rideable_type === 'electric_bike' ? 'px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200' : 'px-2 py-1 text-xs rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'"
-                            >
-                                {{ trip.rideable_type === 'electric_bike' ? 'E-Bike' : 'Bike' }}
-                            </span>
-                        </div>
-                        <div class="flex items-center">
-                            <span class="text-sm text-gray-500 dark:text-gray-400 mr-3">Rider:</span>
-                            <span
-                                :class="trip.member_casual === 'member' ? 'px-2 py-1 text-xs rounded-full bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200' : 'px-2 py-1 text-xs rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'"
-                            >
-                                {{ trip.member_casual === 'member' ? 'Member' : 'Casual' }}
+                            <span :class="rideTypeClasses(trip.ride_type)">
+                                {{ formatRideType(trip.ride_type) }}
                             </span>
                         </div>
                         <div class="flex items-center">

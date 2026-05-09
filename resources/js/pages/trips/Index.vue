@@ -12,8 +12,8 @@ const props = defineProps<{
     currentPage: number;
     totalCount: number;
     filters: {
-        rideable_type: string;
-        member_casual: string;
+        ride_type: string;
+        rider_type: string;
         station: string;
         date_from: string;
         date_to: string;
