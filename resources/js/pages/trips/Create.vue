@@ -2,25 +2,38 @@
 import { useForm, Link } from '@inertiajs/vue3';
 import moment from 'moment';
 import TripController from '@/actions/App/Http/Controllers/TripController';
+import { toISODateTimeByMinute } from '@/lib/utils';
 import type { Station } from '@/types';
+import { RideType } from '@/types';
 
 defineProps<{
     stations: Station[];
 }>();
 
-const currentTime = moment(Date.now()).format('YYYY-MM-DD HH:mm');
+const currentTime = moment().local().format('YYYY-MM-DDTHH:mm');
 
-const form = useForm({
-    rideable_type: 'electric_bike',
+type FormData = {
+    ride_type: RideType;
+    started_at: string;
+    ended_at: string;
+    start_station_id: number;
+    end_station_id: number;
+}
+
+const form = useForm<FormData>({
+    ride_type: RideType.ELECTRIC_BIKE,
     started_at: currentTime,
     ended_at: currentTime,
     start_station_id: '',
     end_station_id: '',
-    member_casual: 'member',
 });
 
 const submit = () => {
-    form.post(TripController.store(), {
+    form.transform((data: FormData) => ({
+        ...data,
+        started_at: toISODateTimeByMinute(moment(data.started_at)),
+        ended_at: toISODateTimeByMinute(moment(data.ended_at)),
+    })).post(TripController.store(), {
         onSuccess: () => form.reset(),
     });
 };
@@ -43,40 +56,6 @@ const submit = () => {
 
             <form @submit.prevent="submit" class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                            Ride Type *
-                        </label>
-                        <select
-                            v-model="form.rideable_type"
-                            class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                            :class="{ 'border-red-500': form.errors.rideable_type }"
-                        >
-                            <option value="electric_bike">Electric Bike</option>
-                            <option value="classic_bike">Classic Bike</option>
-                        </select>
-                        <p v-if="form.errors.rideable_type" class="mt-1 text-sm text-red-600 dark:text-red-400">
-                            {{ form.errors.rideable_type }}
-                        </p>
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                            Rider Type *
-                        </label>
-                        <select
-                            v-model="form.member_casual"
-                            class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                            :class="{ 'border-red-500': form.errors.member_casual }"
-                        >
-                            <option value="member">Member</option>
-                            <option value="casual">Casual</option>
-                        </select>
-                        <p v-if="form.errors.member_casual" class="mt-1 text-sm text-red-600 dark:text-red-400">
-                            {{ form.errors.member_casual }}
-                        </p>
-                    </div>
-
                     <div>
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                             Start Date/Time *
@@ -142,6 +121,23 @@ const submit = () => {
                         </select>
                         <p v-if="form.errors.end_station_id" class="mt-1 text-sm text-red-600 dark:text-red-400">
                             {{ form.errors.end_station_id }}
+                        </p>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            Ride Type *
+                        </label>
+                        <select
+                            v-model="form.ride_type"
+                            class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                            :class="{ 'border-red-500': form.errors.ride_type }"
+                        >
+                            <option value="electric_bike">Electric Bike</option>
+                            <option value="classic_bike">Classic Bike</option>
+                        </select>
+                        <p v-if="form.errors.ride_type" class="mt-1 text-sm text-red-600 dark:text-red-400">
+                            {{ form.errors.ride_type }}
                         </p>
                     </div>
                 </div>

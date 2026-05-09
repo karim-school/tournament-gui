@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\RideType;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -13,7 +14,9 @@ class UpdateTripRecordRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return auth()->check();
+        $trip = $this->route()->parameter('trip');
+
+        return auth()->check() && auth()->id() === $trip->user_id;
     }
 
     /**
@@ -24,7 +27,7 @@ class UpdateTripRecordRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'rideable_type' => ['required', Rule::in(['electric_bike', 'classic_bike'])],
+            'ride_type' => ['required', Rule::in(RideType::cases())],
             'started_at' => ['required', 'date'],
             'ended_at' => ['required', 'date', 'after:started_at'],
             'start_station_id' => ['required', 'integer', 'exists:stations,id'],
@@ -35,8 +38,8 @@ class UpdateTripRecordRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'rideable_type.required' => 'The ride type is required.',
-            'rideable_type.in' => 'The ride type must be electric_bike or classic_bike.',
+            'ride_type.required' => 'The ride type is required.',
+            'ride_type.in' => 'The ride type must be one of '.implode(', ', array_map(fn ($rideType) => $rideType->value, RideType::cases())).'.',
             'started_at.required' => 'The start date/time is required.',
             'ended_at.required' => 'The end date/time is required.',
             'ended_at.after' => 'The end time must be after the start time.',

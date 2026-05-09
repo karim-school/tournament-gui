@@ -2,6 +2,7 @@
 import { Link } from '@inertiajs/vue3';
 import { ref, onMounted, onUnmounted, watch } from 'vue';
 import TripController from '@/actions/App/Http/Controllers/TripController';
+import { formatMembership, formatRideType, membershipClasses, rideTypeClasses } from '@/lib/utils';
 import type { TripRecord } from '@/types';
 
 defineProps<{
@@ -76,10 +77,6 @@ const formatDuration = (start: number, end: number): string => {
 
     return `${hours}h ${mins}m`;
 };
-
-const formatId = (id: string): string => {
-    return BigInt(id).toString(16).toUpperCase();
-};
 </script>
 
 <template>
@@ -117,18 +114,14 @@ const formatId = (id: string): string => {
                     class="hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
                 >
                     <td class="px-2 py-3 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100 truncate" colspan="2">
-                        <Link :href="TripController.show(formatId(trip.id))"
+                        <Link :href="TripController.show(trip.id)"
                               class="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300">
-                            {{ formatId(trip.id) }}
+                            {{ trip.id }}
                         </Link>
                     </td>
                     <td class="px-2 py-3 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400" colspan="1">
-                        <span
-                            :class="trip.rideable_type === 'electric_bike'
-                            ? 'px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'
-                            : 'px-2 py-1 text-xs rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'"
-                        >
-                            {{ trip.rideable_type === 'electric_bike' ? 'E-Bike' : 'Bike' }}
+                        <span :class="rideTypeClasses(trip.ride_type)">
+                            {{ formatRideType(trip.ride_type) }}
                         </span>
                     </td>
                     <td class="px-2 py-3 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400" colspan="2">
@@ -144,12 +137,8 @@ const formatId = (id: string): string => {
                         {{ trip.end_station?.name || 'Unknown' }}
                     </td>
                     <td class="px-2 py-3 whitespace-nowrap text-sm" colspan="1">
-                        <span
-                            :class="trip.member_casual === 'member'
-                            ? 'px-2 py-1 text-xs rounded-full bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200'
-                            : 'px-2 py-1 text-xs rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'"
-                        >
-                            {{ trip.member_casual === 'member' ? 'Member' : 'Casual' }}
+                        <span :class="membershipClasses(trip.user.membership)">
+                            {{ formatMembership(trip.user.membership) }}
                         </span>
                     </td>
                 </tr>

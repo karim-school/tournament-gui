@@ -2,11 +2,13 @@
 import { router } from '@inertiajs/vue3';
 import { ref, watch } from 'vue';
 import TripController from '@/actions/App/Http/Controllers/TripController';
+import { formatMembership } from '@/lib/utils';
+import { Membership } from '@/types';
 
 const props = defineProps<{
     filters: {
-        rideable_type: string;
-        member_casual: string;
+        ride_type: string;
+        rider_type: string;
         station: string;
         date_from: string;
         date_to: string;
@@ -22,8 +24,8 @@ watch(localFilters, () => {
 
 const resetFilters = () => {
     localFilters.value = {
-        rideable_type: 'all',
-        member_casual: 'all',
+        ride_type: 'all',
+        rider_type: 'all',
         station: '',
         date_from: '',
         date_to: '',
@@ -40,7 +42,7 @@ const resetFilters = () => {
                     Ride Type
                 </label>
                 <select
-                    v-model="localFilters.rideable_type"
+                    v-model="localFilters.ride_type"
                     class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                 >
                     <option value="all">All Types</option>
@@ -54,12 +56,16 @@ const resetFilters = () => {
                     Rider Type
                 </label>
                 <select
-                    v-model="localFilters.member_casual"
+                    v-model="localFilters.rider_type"
                     class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                 >
                     <option value="all">All Riders</option>
-                    <option value="member">Member</option>
-                    <option value="casual">Casual</option>
+                    <option v-for="membership in Membership"
+                            :key="membership"
+                            :value="membership"
+                    >
+                        {{ formatMembership(membership) }}
+                    </option>
                 </select>
             </div>
 

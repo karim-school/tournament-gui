@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\DateTimeFormatter;
 use App\Http\Requests\StoreTripRecordRequest;
 use App\Http\Requests\UpdateTripRecordRequest;
 use App\Models\Station;
@@ -32,8 +33,8 @@ class TripController extends Controller
                 'currentPage' => 1,
                 'totalCount' => 0,
                 'filters' => [
-                    'rideable_type' => $request->input('rideable_type', 'all'),
-                    'member_casual' => $request->input('member_casual', 'all'),
+                    'ride_type' => $request->input('ride_type', 'all'),
+                    'rider_type' => $request->input('rider_type', 'all'),
                     'station' => $request->input('station', ''),
                     'date_from' => $request->input('date_from', ''),
                     'date_to' => $request->input('date_to', ''),
@@ -45,19 +46,21 @@ class TripController extends Controller
         try {
             $query = TripRecord::query();
 
-            if ($request->filled('rideable_type') && $request->rideable_type !== 'all') {
-                $query->where('rideable_type', $request->rideable_type);
+            if ($request->filled('ride_type') && $request->ride_type !== 'all') {
+                $query->where('ride_type', $request->ride_type);
             }
 
-            if ($request->filled('member_casual') && $request->member_casual !== 'all') {
-                $query->where('member_casual', $request->member_casual);
+            if ($request->filled('rider_type') && $request->rider_type !== 'all') {
+                $query->whereHas('user', function ($query) use ($request) {
+                    return $query->where('membership', $request->rider_type);
+                });
             }
 
             if ($request->filled('station')) {
                 $stationSearch = '%'.$request->station.'%';
                 $query->where(function ($q) use ($stationSearch) {
-                    $q->whereRaw('EXISTS (SELECT 1 FROM stations WHERE stations.name LIKE ? AND stations.id = trip_records.start_station_id AND stations.sub_id = trip_records.start_station_sub_id)', [$stationSearch])
-                        ->orWhereRaw('EXISTS (SELECT 1 FROM stations WHERE stations.name LIKE ? AND stations.id = trip_records.end_station_id AND stations.sub_id = trip_records.end_station_sub_id)', [$stationSearch]);
+                    $q->whereRaw('EXISTS (SELECT 1 FROM stations WHERE stations.name LIKE ? AND stations.id = trip_records.start_station_id)', [$stationSearch])
+                        ->orWhereRaw('EXISTS (SELECT 1 FROM stations WHERE stations.name LIKE ? AND stations.id = trip_records.end_station_id)', [$stationSearch]);
                 });
             }
 
@@ -81,6 +84,7 @@ class TripController extends Controller
             $trips = $query->orderBy('started_at', 'desc')
                 ->offset(($page - 1) * self::PER_PAGE)
                 ->limit(self::PER_PAGE)
+                ->with('user')
                 ->get();
 
             if ($request->boolean('api')) {
@@ -96,8 +100,8 @@ class TripController extends Controller
                 'currentPage' => $page,
                 'totalCount' => $totalCount,
                 'filters' => [
-                    'rideable_type' => $request->input('rideable_type', 'all'),
-                    'member_casual' => $request->input('member_casual', 'all'),
+                    'ride_type' => $request->input('ride_type', 'all'),
+                    'rider_type' => $request->input('rider_type', 'all'),
                     'station' => $request->input('station', ''),
                     'date_from' => $request->input('date_from', ''),
                     'date_to' => $request->input('date_to', ''),
@@ -126,18 +130,18 @@ class TripController extends Controller
     public function store(StoreTripRecordRequest $request): Redirector|RedirectResponse
     {
         try {
-            $startStation = Station::findOrFail($request->input('start_station_id'));
-            $endStation = Station::findOrFail($request->input('end_station_id'));
+            $start_time = (new \DateTime($request->input('started_at')))
+                ->format(DateTimeFormatter::ISO_DATETIME_BY_MINUTE);
+            $end_time = (new \DateTime($request->input('ended_at')))
+                ->format(DateTimeFormatter::ISO_DATETIME_BY_MINUTE);
 
             TripRecord::create([
-                'rideable_type' => $request->input('rideable_type'),
-                'started_at' => $request->input('started_at'),
-                'ended_at' => $request->input('ended_at'),
+                'user_id' => auth()->id(),
                 'start_station_id' => $request->input('start_station_id'),
-                'start_station_sub_id' => $startStation->sub_id,
                 'end_station_id' => $request->input('end_station_id'),
-                'end_station_sub_id' => $endStation->sub_id,
-                'member_casual' => $request->input('member_casual'),
+                'started_at' => $start_time,
+                'ended_at' => $end_time,
+                'ride_type' => $request->input('ride_type'),
             ]);
 
             return redirect()->route('home')->with('success', 'Trip record created successfully.');
@@ -146,49 +150,51 @@ class TripController extends Controller
         }
     }
 
-    public function show(TripRecord $tripRecord): Response
+    public function show(TripRecord $trip): Response
     {
         if (! auth()->check()) {
             session(['url.intended' => url()->current()]);
         }
 
-        return Inertia::render('trips/Show', ['trip' => $tripRecord->toResource()->resolve()]);
+        $trip->load('user');
+
+        return Inertia::render('trips/Show', ['trip' => $trip->toResource()->resolve()]);
     }
 
-    public function edit(TripRecord $tripRecord): Response|RedirectResponse
+    public function edit(TripRecord $trip): Response|RedirectResponse
     {
-        if (! auth()->check()) {
-            return redirect()->route('home');
+        if (! auth()->check() || auth()->id() !== $trip->user_id) {
+            return redirect()->route('trips.show', ['trip' => $trip->id]);
         }
 
         $stations = Station::all();
 
         return Inertia::render('trips/Edit', [
-            'trip' => $tripRecord->toResource()->resolve(),
+            'trip' => $trip->toResource()->resolve(),
             'stations' => $stations,
         ]);
     }
 
-    public function update(UpdateTripRecordRequest $request, TripRecord $tripRecord): RedirectResponse
+    public function update(UpdateTripRecordRequest $request, TripRecord $trip): RedirectResponse
     {
-        $tripRecord->update([
-            'rideable_type' => $request->input('rideable_type'),
+        $trip->update([
+            'ride_type' => $request->input('ride_type'),
             'started_at' => $request->input('started_at'),
             'ended_at' => $request->input('ended_at'),
             'start_station_id' => $request->input('start_station_id'),
             'end_station_id' => $request->input('end_station_id'),
         ]);
 
-        return redirect()->route('trips.show', dechex($tripRecord->id))->with('success', 'Trip updated successfully.');
+        return redirect()->route('trips.show', $trip->id)->with('success', 'Trip updated successfully.');
     }
 
-    public function destroy(TripRecord $tripRecord): RedirectResponse
+    public function destroy(TripRecord $trip): RedirectResponse
     {
-        if (! auth()->check()) {
+        if (! auth()->check() || auth()->id() !== $trip->user_id) {
             abort(403);
         }
 
-        TripRecord::destroy($tripRecord->id);
+        TripRecord::destroy($trip->id);
 
         return redirect()->route('home')->with('success', 'Trip record deleted successfully.');
     }

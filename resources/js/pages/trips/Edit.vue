@@ -1,27 +1,37 @@
 <script setup lang="ts">
 import { useForm, Link } from '@inertiajs/vue3';
+import moment from 'moment/moment';
 import TripController from '@/actions/App/Http/Controllers/TripController';
-import type { Station, TripRecord } from '@/types';
+import { toISODateTimeByMinute } from '@/lib/utils';
+import type { RideType, Station, TripRecord } from '@/types';
 
 const props = defineProps<{
     trip: TripRecord;
     stations: Station[];
 }>();
 
-const form = useForm({
-    rideable_type: props.trip.rideable_type,
-    started_at: props.trip.started_at,
-    ended_at: props.trip.ended_at,
+type FormData = {
+    ride_type: RideType;
+    started_at: string;
+    ended_at: string;
+    start_station_id: number;
+    end_station_id: number;
+}
+
+const form = useForm<FormData>({
+    ride_type: props.trip.ride_type,
+    started_at: moment(props.trip.started_at).local().format('YYYY-MM-DDTHH:mm'),
+    ended_at: moment(props.trip.ended_at).local().format('YYYY-MM-DDTHH:mm'),
     start_station_id: props.trip.start_station.id,
     end_station_id: props.trip.end_station.id,
 });
 
-const formatId = (id: string): string => {
-    return BigInt(id).toString(16).toUpperCase();
-};
-
 const submit = () => {
-    form.put(TripController.update(formatId(props.trip.id)), {
+    form.transform((data: FormData) => ({
+        ...data,
+        started_at: toISODateTimeByMinute(moment(data.started_at)),
+        ended_at: toISODateTimeByMinute(moment(data.ended_at)),
+    })).put(TripController.update(props.trip.id), {
         onSuccess: () => form.reset(),
     });
 };
@@ -32,7 +42,7 @@ const submit = () => {
         <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <div class="mb-8">
                 <Link
-                    :href="TripController.show(formatId(trip.id))"
+                    :href="TripController.show(trip.id)"
                     class="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 text-sm"
                 >
                     ← Back to Trip
@@ -41,7 +51,7 @@ const submit = () => {
                     Update Trip
                 </h1>
                 <p class="mt-2 text-gray-600 dark:text-gray-400">
-                    Update trip record with ID: {{ formatId(trip.id) }}
+                    Update trip record with ID: {{ trip.id }}
                 </p>
             </div>
 
@@ -120,22 +130,22 @@ const submit = () => {
                             Ride Type *
                         </label>
                         <select
-                            v-model="form.rideable_type"
+                            v-model="form.ride_type"
                             class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                            :class="{ 'border-red-500': form.errors.rideable_type }"
+                            :class="{ 'border-red-500': form.errors.ride_type }"
                         >
                             <option value="electric_bike">Electric Bike</option>
                             <option value="classic_bike">Classic Bike</option>
                         </select>
-                        <p v-if="form.errors.rideable_type" class="mt-1 text-sm text-red-600 dark:text-red-400">
-                            {{ form.errors.rideable_type }}
+                        <p v-if="form.errors.ride_type" class="mt-1 text-sm text-red-600 dark:text-red-400">
+                            {{ form.errors.ride_type }}
                         </p>
                     </div>
                 </div>
 
                 <div class="mt-6 flex justify-end gap-4">
                     <Link
-                        :href="TripController.show(formatId(trip.id))"
+                        :href="TripController.show(trip.id)"
                         class="px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
                     >
                         Cancel

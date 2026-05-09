@@ -11,12 +11,12 @@ class TripRecordResource extends JsonResource
     {
         return [
             'id' => (string) $this->id,
-            'rideable_type' => $this->rideable_type,
-            'started_at' => $this->started_at,
-            'ended_at' => $this->ended_at,
+            'user' => (new UserResource($this->user))->resolve(),
             'start_station' => $this->start_station_data,
             'end_station' => $this->end_station_data,
-            'member_casual' => $this->member_casual,
+            'started_at' => $this->started_at->getTimestamp() * 1000,
+            'ended_at' => $this->ended_at->getTimestamp() * 1000,
+            'ride_type' => $this->ride_type,
         ];
     }
 }
