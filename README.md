@@ -1,5 +1,13 @@
 # TripTrack
 
+Description here
+
+## Features
+
+Security, etc.
+
+## Requirements
+
 ## Installation
 
 This project was built in an environment with the following versions, but they are not necessarily required.
@@ -47,6 +55,8 @@ You may click the ID of any of these trips to show a detailed view of that parti
 
 You can also add a new trip by pressing the "Add New Trip" button above the trip table.
 In case you need to edit or delete a particular trip, you may go to the detailed view and do so using the buttons at the top.
+
+### TODO: Logins added, seeding adds test user
 
 ## Logging
 
