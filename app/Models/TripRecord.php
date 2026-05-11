@@ -48,6 +48,7 @@ class TripRecord extends Model
         return [
             'started_at' => 'datetime',
             'ended_at' => 'datetime',
+            'ride_type' => RideType::class,
         ];
     }
 

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Link, router } from '@inertiajs/vue3';
-import { LogOut, Settings } from 'lucide-vue-next';
+import { LogOut, Settings, Star } from 'lucide-vue-next';
 import {
     DropdownMenuGroup,
     DropdownMenuItem,
@@ -11,6 +11,7 @@ import UserInfo from '@/components/UserInfo.vue';
 import { logout } from '@/routes';
 import { edit } from '@/routes/profile';
 import type { User } from '@/types';
+import UserController from '@/actions/App/Http/Controllers/UserController';
 
 type Props = {
     user: User;
@@ -18,6 +19,10 @@ type Props = {
 
 const handleLogout = () => {
     router.flushAll();
+};
+
+const upgradeUser = (id: number) => {
+    router.put(UserController.upgrade(id));
 };
 
 defineProps<Props>();
@@ -31,6 +36,15 @@ defineProps<Props>();
     </DropdownMenuLabel>
     <DropdownMenuSeparator />
     <DropdownMenuGroup>
+        <DropdownMenuItem :as-child="true">
+            <button v-if="user.membership === 'guest' && user.is_admin"
+                @click="upgradeUser(user.id)"
+                class="block w-full cursor-pointer"
+            >
+                <Star class="mr-2 h-4 w-4" />
+                Upgrade to Member
+            </button>
+        </DropdownMenuItem>
         <DropdownMenuItem :as-child="true">
             <Link class="block w-full cursor-pointer" :href="edit()" prefetch>
                 <Settings class="mr-2 h-4 w-4" />
