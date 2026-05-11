@@ -38,10 +38,14 @@ const resetFilters = () => {
     <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 mb-4">
         <div class="grid grid-cols-1 md:grid-cols-3 md:grid-rows-2 gap-4">
             <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                <label
+                    for="filter-ride-type"
+                    class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                >
                     Ride Type
                 </label>
                 <select
+                    id="filter-ride-type"
                     v-model="localFilters.ride_type"
                     class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                 >
@@ -52,10 +56,14 @@ const resetFilters = () => {
             </div>
 
             <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                <label
+                    for="filter-rider-type"
+                    class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                >
                     Rider Type
                 </label>
                 <select
+                    id="filter-rider-type"
                     v-model="localFilters.rider_type"
                     class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                 >
@@ -70,10 +78,14 @@ const resetFilters = () => {
             </div>
 
             <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                <label
+                    for="filter-station"
+                    class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                >
                     Station
                 </label>
                 <input
+                    id="filter-station"
                     type="text"
                     v-model="localFilters.station"
                     placeholder="Search stations..."
@@ -82,10 +94,14 @@ const resetFilters = () => {
             </div>
 
             <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                <label
+                    for="filter-from-date"
+                    class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                >
                     From Date
                 </label>
                 <input
+                    id="filter-from-date"
                     type="date"
                     v-model="localFilters.date_from"
                     class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 shadow-sm focus:border-blue-500 focus:ring-blue-500"
@@ -93,10 +109,14 @@ const resetFilters = () => {
             </div>
 
             <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                <label
+                    for="filter-to-date"
+                    class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                >
                     To Date
                 </label>
                 <input
+                    id="filter-to-date"
                     type="date"
                     v-model="localFilters.date_to"
                     class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 shadow-sm focus:border-blue-500 focus:ring-blue-500"
@@ -104,10 +124,14 @@ const resetFilters = () => {
             </div>
 
             <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                <label
+                    for="filter-min-duration"
+                    class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                >
                     Min. Duration
                 </label>
                 <input
+                    id="filter-min-duration"
                     type="number"
                     min="0"
                     v-model="localFilters.min_duration"

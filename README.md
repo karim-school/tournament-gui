@@ -109,3 +109,7 @@ In case of errors during runtime, these will be logged to the `storage/logs/lara
 ## Service Level Agreement (SLA)
 
 The SLA declaration can be found in the <a href="SLA.md">SLA.md</a> file.
+
+## Lighthouse
+
+<img src="lighthouse.png" alt="Lighthouse Report" />
