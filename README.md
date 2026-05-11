@@ -60,7 +60,9 @@ Upon cloning this repository:
 
 To run the software, use:
 - Debug: `composer dev`
-- Production: `php artisan serve`
+- Production:
+  - `npm run build`
+  - `php artisan serve`
 
 The app will be available at http://localhost:8000.
 
