@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\Membership;
 use App\Models\Station;
 use App\Models\TripRecord;
 use App\Models\User;
@@ -18,6 +19,8 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
+            'membership' => Membership::GUEST,
+            'is_admin' => true,
         ]);
 
         User::factory(10)->create();

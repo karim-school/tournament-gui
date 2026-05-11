@@ -13,6 +13,7 @@ export type User = {
     updated_at: string;
     [key: string]: unknown;
     membership?: Membership;
+    is_admin: boolean;
 };
 
 export type Auth = {
