@@ -19,8 +19,8 @@ class StationFactory extends Factory
     {
         return [
             'name' => $this->faker->streetName(),
-            'latitude' => $this->faker->latitude(),
-            'longitude' => $this->faker->longitude(),
+            'latitude' => $this->faker->latitude(54.7, 57.2),
+            'longitude' => $this->faker->longitude(8.2, 12.5),
         ];
     }
 

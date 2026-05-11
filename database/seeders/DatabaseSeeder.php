@@ -25,8 +25,6 @@ class DatabaseSeeder extends Seeder
 
         User::factory(10)->create();
 
-        Station::factory()->count(5)->create();
-
         TripRecord::factory()->count(75)->create();
     }
 }
