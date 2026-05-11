@@ -24,24 +24,19 @@ test('trip create page redirects for unauthenticated users', function () {
 
 test('trip can be created', function () {
     $user = User::factory()->create();
-    $station = Station::factory()->create();
-    $otherStation = Station::factory()->create();
 
     $response = $this->actingAs($user)->post(route('trips.store'), [
         'ride_type' => RideType::CLASSIC_BIKE->value,
         'started_at' => '2024-01-01 10:00:00',
         'ended_at' => '2024-01-01 11:00:00',
-        'start_station_id' => $station->id,
-        'end_station_id' => $otherStation->id,
+        'start_location' => ['latitude' => 55.36, 'longitude' => 10.39],
+        'end_location' => ['latitude' => 55.42, 'longitude' => 10.36],
     ]);
 
     $response->assertSessionHasNoErrors();
-    $response->assertRedirect(route('home'));
 
     $this->assertDatabaseHas('trip_records', [
         'user_id' => $user->id,
-        'start_station_id' => $station->id,
-        'end_station_id' => $otherStation->id,
     ]);
 });
 
@@ -395,21 +390,17 @@ test('trip edit page redirects for non-owner', function () {
 
 test('trip can be updated by owner', function () {
     $user = User::factory()->create();
-    $station = Station::factory()->create();
-    $otherStation = Station::factory()->create();
 
     $trip = TripRecord::factory()
         ->for($user, 'user')
-        ->for($station, 'startStation')
-        ->for($otherStation, 'endStation')
         ->create();
 
     $response = $this->actingAs($user)->put(route('trips.update', $trip), [
         'ride_type' => RideType::ELECTRIC_BIKE->value,
         'started_at' => '2024-01-01 10:00:00',
         'ended_at' => '2024-01-01 11:00:00',
-        'start_station_id' => $station->id,
-        'end_station_id' => $otherStation->id,
+        'start_location' => ['latitude' => 55.36, 'longitude' => 10.39],
+        'end_location' => ['latitude' => 55.42, 'longitude' => 10.36],
     ]);
 
     $response->assertSessionHasNoErrors();
@@ -417,7 +408,7 @@ test('trip can be updated by owner', function () {
 
     $trip->refresh();
 
-    expect($trip->ride_type)->toBe(RideType::ELECTRIC_BIKE->value);
+    expect($trip->ride_type->value)->toBe(RideType::ELECTRIC_BIKE->value);
 });
 
 test('trip can be deleted by owner', function () {

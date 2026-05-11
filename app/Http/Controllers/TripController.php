@@ -135,17 +135,31 @@ class TripController extends Controller
             $end_time = (new \DateTime($request->input('ended_at')))
                 ->format(DateTimeFormatter::ISO_DATETIME_BY_MINUTE);
 
-            TripRecord::create([
+            $start_location = Station::create([
+                'name' => '',
+                'latitude' => $request->input('start_location.latitude'),
+                'longitude' => $request->input('start_location.longitude'),
+            ]);
+
+            $end_location = Station::create([
+                'name' => '',
+                'latitude' => $request->input('end_location.latitude'),
+                'longitude' => $request->input('end_location.longitude'),
+            ]);
+
+            $trip = TripRecord::create([
                 'user_id' => auth()->id(),
-                'start_station_id' => $request->input('start_station_id'),
-                'end_station_id' => $request->input('end_station_id'),
+                'start_station_id' => $start_location->id,
+                'end_station_id' => $end_location->id,
                 'started_at' => $start_time,
                 'ended_at' => $end_time,
                 'ride_type' => $request->input('ride_type'),
             ]);
 
-            return redirect()->route('home')->with('success', 'Trip record created successfully.');
+            return redirect()->route('trips.show', ['trip' => $trip->id])->with('success', 'Trip record created successfully.');
         } catch (\Throwable $e) {
+            Log::error($e);
+
             return back()->with('error', 'Failed to create trip record: '.$e->getMessage());
         }
     }
@@ -181,8 +195,16 @@ class TripController extends Controller
             'ride_type' => $request->input('ride_type'),
             'started_at' => $request->input('started_at'),
             'ended_at' => $request->input('ended_at'),
-            'start_station_id' => $request->input('start_station_id'),
-            'end_station_id' => $request->input('end_station_id'),
+        ]);
+
+        $trip->startStation()->update([
+            'latitude' => $request->input('start_location.latitude'),
+            'longitude' => $request->input('start_location.longitude'),
+        ]);
+
+        $trip->endStation()->update([
+            'latitude' => $request->input('end_location.latitude'),
+            'longitude' => $request->input('end_location.longitude'),
         ]);
 
         return redirect()->route('trips.show', $trip->id)->with('success', 'Trip updated successfully.');

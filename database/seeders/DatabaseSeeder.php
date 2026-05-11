@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Enums\Membership;
-use App\Models\Station;
 use App\Models\TripRecord;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -24,8 +23,6 @@ class DatabaseSeeder extends Seeder
         ]);
 
         User::factory(10)->create();
-
-        Station::factory()->count(5)->create();
 
         TripRecord::factory()->count(75)->create();
     }

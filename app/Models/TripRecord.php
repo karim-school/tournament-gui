@@ -14,8 +14,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 /**
  * @property string $id
  * @property int $user_id
- * @property Station $start_station
- * @property Station $end_station
+ * @property int $start_station_id
+ * @property int $end_station_id
  * @property \DateTime $started_at
  * @property \DateTime $ended_at
  * @property RideType $ride_type

@@ -1,12 +1,37 @@
 <script setup lang="ts">
 import { Link, router } from '@inertiajs/vue3';
+import { onMounted } from 'vue';
 import TripController from '@/actions/App/Http/Controllers/TripController';
+import { useMap } from '@/composables/useMap';
 import { formatMembership, formatRideType, membershipClasses, rideTypeClasses } from '@/lib/utils';
 import type { TripRecord } from '@/types';
 
-defineProps<{
+const props = defineProps<{
     trip: TripRecord;
 }>();
+
+const start = L.latLng(props.trip.start_station.location.latitude, props.trip.start_station.location.longitude);
+const end = L.latLng(props.trip.end_station.location.latitude, props.trip.end_station.location.longitude);
+const distance = start.distanceTo(end);
+
+onMounted(() => {
+    const { getMap } = useMap();
+    const map = getMap();
+
+    L.marker(start, { title: 'Start' }).addTo(map);
+    L.marker(end, { title: 'End' }).addTo(map);
+
+    const line = L.polyline([start, end], {color: 'red'}).addTo(map);
+    map.fitBounds(line.getBounds());
+
+    const popup = L.popup();
+
+    map.on('click', (event) => {
+        popup.setLatLng(event.latlng)
+            .setContent(formatCoordinates(event.latlng.lat, event.latlng.lng, 4))
+            .openOn(map);
+    });
+});
 
 const formatDate = (timestamp: number | string): string => {
     const date = new Date(timestamp);
@@ -43,8 +68,15 @@ const formatDuration = (start: number | string, end: number | string): string =>
     return `${hours} ${pluralizeIfMultiple('hour', hours)} ${remainingMinutes} ${pluralizeIfMultiple('minute', remainingMinutes)}`;
 };
 
-const formatCoordinates = (lat: number, lng: number): string => {
-    return `${lat.toFixed(2)}\u00b0 N, ${lng.toFixed(2)}\u00b0 W`;
+const formatDistance = (distanceInMeters: number): string => {
+    const kilometers = distanceInMeters / 1000;
+
+    return Math.floor(kilometers) > 0 ? `${kilometers.toFixed(2)} km` : `${distanceInMeters} m`;
+
+};
+
+const formatCoordinates = (lat: number, lng: number, precision: number = 2): string => {
+    return `${lat.toFixed(precision)}\u00b0 N, ${lng.toFixed(precision)}\u00b0 W`;
 };
 
 const promptDeletion = (id) => {
@@ -122,6 +154,11 @@ const promptDeletion = (id) => {
                             <span class="text-sm">{{ formatDuration(trip.started_at, trip.ended_at) }}
                             </span>
                         </div>
+                        <div class="flex items-center">
+                            <span class="text-sm text-gray-500 dark:text-gray-400 mr-3">Distance:</span>
+                            <span class="text-sm">{{ formatDistance(distance) }}
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -161,6 +198,8 @@ const promptDeletion = (id) => {
                     </div>
                 </div>
             </div>
+
+            <div id="map" style="height: 500px"></div>
         </div>
     </div>
 </template>

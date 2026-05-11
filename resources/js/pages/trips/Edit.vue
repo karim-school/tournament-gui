@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { useForm, Link } from '@inertiajs/vue3';
 import moment from 'moment/moment';
+import { onMounted, toRef } from 'vue';
 import TripController from '@/actions/App/Http/Controllers/TripController';
+import { addDistanceMarkerEvents, useMap } from '@/composables/useMap';
 import { toISODateTimeByMinute } from '@/lib/utils';
-import type { RideType, Station, TripRecord } from '@/types';
+import type { RideType, Station, TripRecord, WorldLocation } from '@/types';
 
 const props = defineProps<{
     trip: TripRecord;
@@ -14,16 +16,16 @@ type FormData = {
     ride_type: RideType;
     started_at: string;
     ended_at: string;
-    start_station_id: number;
-    end_station_id: number;
+    start_location: WorldLocation;
+    end_location: WorldLocation;
 }
 
 const form = useForm<FormData>({
     ride_type: props.trip.ride_type,
     started_at: moment(props.trip.started_at).local().format('YYYY-MM-DDTHH:mm'),
     ended_at: moment(props.trip.ended_at).local().format('YYYY-MM-DDTHH:mm'),
-    start_station_id: props.trip.start_station.id,
-    end_station_id: props.trip.end_station.id,
+    start_location: props.trip.start_station.location,
+    end_location: props.trip.end_station.location,
 });
 
 const submit = () => {
@@ -35,6 +37,58 @@ const submit = () => {
         onSuccess: () => form.reset(),
     });
 };
+
+onMounted(() => {
+    const { getMap } = useMap();
+    const map = getMap();
+    const startLocation = toRef(form, 'start_location');
+    const endLocation = toRef(form, 'end_location');
+    const markers = Array(2);
+    const line = L.polyline([[0, 0], [0, 0]], {color: 'red'});
+
+    addDistanceMarkerEvents(map, startLocation, endLocation, toRef(markers), toRef(line));
+
+    const start = L.latLng(props.trip.start_station.location.latitude, props.trip.start_station.location.longitude);
+    const end = L.latLng(props.trip.end_station.location.latitude, props.trip.end_station.location.longitude);
+
+    const options = {
+        draggable: true,
+    };
+
+    markers[0] = L.marker(start, { ...options, title: 'Start' }).addTo(map);
+    markers[1] = L.marker(end, { ...options, title: 'End' }).addTo(map);
+    line.setLatLngs([start, end]).addTo(map);
+
+    markers[0].on('click', () => {
+        markers[0].remove();
+        markers[0] = undefined;
+        line.remove();
+        form.start_location = null;
+    });
+
+    markers[0].on('move', (event) => {
+        form.start_location = { latitude: event.latlng.lat, longitude: event.latlng.lng };
+
+        if (markers[1]) {
+            line.setLatLngs([event.latlng, markers[1].getLatLng()]);
+        }
+    });
+
+    markers[1].on('click', () => {
+        markers[1].remove();
+        markers[1] = undefined;
+        line.remove();
+        form.end_location = null;
+    });
+
+    markers[1].on('move', (event) => {
+        form.end_location = { latitude: event.latlng.lat, longitude: event.latlng.lng };
+
+        if (markers[0]) {
+            line.setLatLngs([markers[0].getLatLng(), event.latlng]);
+        }
+    });
+});
 </script>
 
 <template>
@@ -56,7 +110,7 @@ const submit = () => {
             </div>
 
             <form @submit.prevent="submit" class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                             Start Date/Time *
@@ -89,44 +143,6 @@ const submit = () => {
 
                     <div>
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                            Start Station *
-                        </label>
-                        <select
-                            v-model="form.start_station_id"
-                            class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                            :class="{ 'border-red-500': form.errors.start_station_id }"
-                        >
-                            <option value="">Select Station</option>
-                            <option v-for="station in stations" :key="station.id" :value="station.id">
-                                {{ station.name }}
-                            </option>
-                        </select>
-                        <p v-if="form.errors.start_station_id" class="mt-1 text-sm text-red-600 dark:text-red-400">
-                            {{ form.errors.start_station_id }}
-                        </p>
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                            End Station *
-                        </label>
-                        <select
-                            v-model="form.end_station_id"
-                            class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                            :class="{ 'border-red-500': form.errors.end_station_id }"
-                        >
-                            <option value="">Select Station</option>
-                            <option v-for="station in stations" :key="station.id" :value="station.id">
-                                {{ station.name }}
-                            </option>
-                        </select>
-                        <p v-if="form.errors.end_station_id" class="mt-1 text-sm text-red-600 dark:text-red-400">
-                            {{ form.errors.end_station_id }}
-                        </p>
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                             Ride Type *
                         </label>
                         <select
@@ -142,6 +158,16 @@ const submit = () => {
                         </p>
                     </div>
                 </div>
+
+                <p v-if="form.errors.start_location" class="mt-1 text-sm text-red-600 dark:text-red-400">
+                    {{ form.errors.start_location }}
+                </p>
+
+                <p v-if="form.errors.end_location" class="mt-1 text-sm text-red-600 dark:text-red-400">
+                    {{ form.errors.end_location }}
+                </p>
+
+                <div id="map" style="height: 500px"></div>
 
                 <div class="mt-6 flex justify-end gap-4">
                     <Link
