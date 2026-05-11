@@ -8,6 +8,8 @@ Service Provider: Karim
 
 Customer: Karim
 
+This agreement governs the use of TripTrack in its minimum viable product (MVP) stage.
+
 ## 1. Scope of Service
 
 This service provides a filterable list of publicly accessible trip records with the aim to collect trip data in one place with easy lookup. Furthermore, a user may register as a rider and add trips of their own.
@@ -23,10 +25,12 @@ This service provides a filterable list of publicly accessible trip records with
 
 ### 1.2 Excluded Services
 - Data accuracy or otherwise correctness. This service relies on user input.
-- Administrator panel
-- Bulk selection
+- Administration panel.
+- Bulk selection.
 
 ## 2. Escalation
+
+In the case the customer encounters any issues with the product, the issue will be escalated within the provider's support structure as follows.
 
 <table>
     <thead>
@@ -55,7 +59,11 @@ This service provides a filterable list of publicly accessible trip records with
     </tbody>
 </table>
 
+In case the issue lies with a third-party, the provider escalate the issue to that party.
+
 ## 3. Application Coverage
+
+The application will consist of multiple components consisting of different technologies that each play a purpose in the provided product. The components have assigned support levels for reference in case of issues. The support team will be responsible for escalating the issue if necessary.
 
 <table>
     <thead>
@@ -117,13 +125,18 @@ This service provides a filterable list of publicly accessible trip records with
 
 ### 4.2 Availability
 
-Availability is defined as the ratio of time the service is available to users to the amount of time it is unavailable. This is a measure of uptime represented using percentages.
+TripTrack will use a third-party provider for hosting its services and therefore be reliant on this party. TripTrack will choose a hosting service provider with a promised availability of at least **99%** monthly. In the case this service provider breaks its Service Level Agreement for availability, TripTrack will migrate to another hosting provider to maintain a high availability.
 
-This service will have an availability of 99.9%.
+The service is deemed available if the TripTrack product is publicly accessible to users.
+
+For the purposes of this SLA, the following will **not** constitute unavailability:
+- Force majeure events.
+- Cyberattacks such as denial-of-service attacks or viruses.
+- Maintenance required to preserve system stability.
 
 ### 4.3 Service Times
 
-For normal, non-critical service, the service window is between 08:00 and 14:30 GMT+2.
+For normal, non-critical service, the service window is between **08:00** and **14:30** **GMT+2**.
 
 ## 5. Support & Incident Management
 
