@@ -29,8 +29,8 @@ test('trip can be created', function () {
         'ride_type' => RideType::CLASSIC_BIKE->value,
         'started_at' => '2024-01-01 10:00:00',
         'ended_at' => '2024-01-01 11:00:00',
-        'start_location' => [ 'latitude' => 55.36, 'longitude' => 10.39 ],
-        'end_location' => [ 'latitude' => 55.42, 'longitude' => 10.36 ],
+        'start_location' => ['latitude' => 55.36, 'longitude' => 10.39],
+        'end_location' => ['latitude' => 55.42, 'longitude' => 10.36],
     ]);
 
     $response->assertSessionHasNoErrors();
@@ -399,8 +399,8 @@ test('trip can be updated by owner', function () {
         'ride_type' => RideType::ELECTRIC_BIKE->value,
         'started_at' => '2024-01-01 10:00:00',
         'ended_at' => '2024-01-01 11:00:00',
-        'start_location' => [ 'latitude' => 55.36, 'longitude' => 10.39 ],
-        'end_location' => [ 'latitude' => 55.42, 'longitude' => 10.36 ],
+        'start_location' => ['latitude' => 55.36, 'longitude' => 10.39],
+        'end_location' => ['latitude' => 55.42, 'longitude' => 10.36],
     ]);
 
     $response->assertSessionHasNoErrors();
