@@ -1,18 +1,36 @@
 # TripTrack
 
-Description here
+TripTrack is an application that, in short, allows you to share your trips publicly.
+A trip consists of a start and end station as well as a start and end time.
+Additionally, you may also register your ride as using either a classic bike or an electric bike.
+
+Upon registration, you will be considered a "casual rider". As a rider, you can add, edit and delete your trips.
 
 ## Features
 
-Security, etc.
+- **Single Page Application (SPA)** - Fast interactive feedback, no full page reloads.
+- **Table Lazy-Loading** - Scroll down the list of trips infinitely.
+- **Trip Filtering** - Filter the table to find exactly what you're looking for.
+- **Secure Data Handling** - You may only modify your own records.
+- **Compressed Document** - Serves the document with gzip encoding for faster load time.
+- **Responsive Design** - The UI works on all screen sizes.
+- **Request Logging** - Requests are logged with the URI, method and response time.
 
 ## Requirements
 
-## Installation
+Although the versions are not strictly requirements, the following software is required to build this project. The versions listed were used during development and are therefore tested.
 
-This project was built in an environment with the following versions, but they are not necessarily required.
+I recommend using NVM (Node Version Manager) for Node & NPM management.
+
+The project was built on Laravel 13, so PHP 8.3+ is a requirement.
+
+Furthermore, some required PHP extensions are not necessarily included by default, such as the XML extension, mbstring extension, and sqlite3 extension. Make sure to install these and any others if you encounter errors in the build process.
 
 <table>
+    <tr>
+        <th>Laravel</th>
+        <td>13</td>
+    </tr>
     <tr>
         <th>PHP</th>
         <td>8.3.6</td>
@@ -31,16 +49,14 @@ This project was built in an environment with the following versions, but they a
     </tr>
 </table>
 
-Make sure you have the above software installed on your machine. I recommend using NVM (Node Version Manager) for Node & NPM management.
-
-Some PHP extensions not necessarily included by default are required, such as the XML extension, mbstring extension, and sqlite3 extension. Make sure to install these and any others if you encounter errors in the build process.
+## Installation
 
 Upon cloning this repository:
 1. Run `composer install`
 2. Run `npm install`
 3. Copy the `.env.example` file to `.env`
 4. Run `php artisan key:generate`
-5. Run `php artisan migrate --seed`
+5. Run `php artisan migrate`
 
 To run the software, use:
 - Debug: `composer dev`
@@ -48,15 +64,43 @@ To run the software, use:
 
 The app will be available at http://localhost:8000.
 
+## Quick Start
+
+A database seeder is included to create test users and data. After installation, you may seed the database using `php artisan db:seed`.
+
+This will create a test user with the following credentials:
+
+<table>
+    <tr>
+        <th>Email</th>
+        <th>Password</th>
+    </tr>
+    <tr>
+        <td>test@example.com</td>
+        <td>password</td>
+    </tr>
+</table>
+
 ## How to use
 
 When accessing the root of the site, you will be presented with a table of trips.
-You may click the ID of any of these trips to show a detailed view of that particular trip.
+You may click the ID of any of these trips to show a detailed view of that particular trip. Additionally, you may sign in to add new trips of your own by pressing the "Add New Trip" button above the trip table.
 
-You can also add a new trip by pressing the "Add New Trip" button above the trip table.
-In case you need to edit or delete a particular trip, you may go to the detailed view and do so using the buttons at the top.
+In case you want to edit or delete one of your trips, you may go to the detailed view and do so using the buttons at the top right. This will only be available to you if you are signed in as the rider of the trip.
 
-### TODO: Logins added, seeding adds test user
+## Testing
+
+The project has unit and feature tests. You may run the tests using the following command:
+
+```bash
+php artisan test
+```
+
+To run with a test coverage report, the PCOV extension for PHP is required. Once installed, you may run the following:
+
+```bash
+php artisan test --coverage
+```
 
 ## Logging
 
@@ -65,62 +109,3 @@ In case of errors during runtime, these will be logged to the `storage/logs/lara
 ## Service Level Agreement (SLA)
 
 The SLA declaration can be found in the <a href="SLA.md">SLA.md</a> file.
-
-## ITIL4f Guiding Principles
-
-This project demonstrates the 7 ITIL4f guiding principles:
-
-| # | Principle | Application in this project |
-|---|-----------|------------------------------|
-| 1 | **Focus on value** | MVP approach - only essential features (list, detail, filter, CRUD) |
-| 2 | **Start where you are** | Built on existing Laravel/Inertia stack rather than from scratch |
-| 3 | **Progress iteratively** | Version 0.2.0 - filters, infinite scroll, create form |
-| 4 | **Collaborate and promote visibility** | Public codebase with documented value streams |
-| 5 | **Think and work holistically** | Full-stack integration (frontend + backend + database) |
-| 6 | **Keep it simple and practical** | Minimal dependencies, local SQLite |
-| 7 | **Optimize and automate** | Lazy loading, response compression, efficient queries |
-
-## ITIL4f Documentation
-
-For detailed service architecture and ITIL4f alignment, see <a href="ITIL.md">ITIL.md</a>.
-
-## Version history
-
-<table>
-    <tr>
-        <th>2026-05-09</th>
-        <td>0.5.0</td>
-    </tr>
-    <tr>
-        <th>2026-05-05</th>
-        <td>0.4.1</td>
-    </tr>
-    <tr>
-        <th>2026-04-28</th>
-        <td>0.4.0</td>
-    </tr>
-    <tr>
-        <th>2026-04-28</th>
-        <td>0.3.1</td>
-    </tr>
-    <tr>
-        <th>2026-04-28</th>
-        <td>0.3.0</td>
-    </tr>
-    <tr>
-        <th>2026-04-27</th>
-        <td>0.2.2</td>
-    </tr>
-    <tr>
-        <th>2026-04-27</th>
-        <td>0.2.1</td>
-    </tr>
-    <tr>
-        <th>2026-04-27</th>
-        <td>0.2.0</td>
-    </tr>
-    <tr>
-        <th>2026-04-20</th>
-        <td>0.1.0</td>
-    </tr>
-</table>

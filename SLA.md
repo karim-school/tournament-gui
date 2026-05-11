@@ -8,7 +8,7 @@ Service Provider: Karim
 
 ## 1. Scope of Service
 
-This service provides a filterable list of publicly accessible trip records with the aim to collect all the data in one place with easy lookup.
+This service provides a filterable list of publicly accessible trip records with the aim to collect trip data in one place with easy lookup. Furthermore, a user may register as a rider and add trips of their own.
 
 ### 1.2 Included Services
 - Comprehensible list of records.
@@ -20,7 +20,7 @@ This service provides a filterable list of publicly accessible trip records with
 - Create form for new records.
 
 ### 1.3 Excluded Services
-- Data accuracy or otherwise correctness.
+- Data accuracy or otherwise correctness. This service relies on user input.
 
 ## 2. Application Coverage
 
@@ -108,7 +108,3 @@ This service follows the ITIL4f value chain model:
 | Information & Technology | Laravel, Vue.js, SQLite |
 | Partners & Suppliers | Open-source dependencies |
 | Value Streams | Request → Response flow |
-
----
-
-*For detailed ITIL4f documentation, see [ITIL.md](ITIL.md).*
