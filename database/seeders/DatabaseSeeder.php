@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Enums\Membership;
-use App\Models\Station;
 use App\Models\TripRecord;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;

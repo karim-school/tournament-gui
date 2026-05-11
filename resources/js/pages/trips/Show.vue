@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { Link, router } from '@inertiajs/vue3';
+import { onMounted } from 'vue';
 import TripController from '@/actions/App/Http/Controllers/TripController';
+import { useMap } from '@/composables/useMap';
 import { formatMembership, formatRideType, membershipClasses, rideTypeClasses } from '@/lib/utils';
 import type { TripRecord } from '@/types';
-import { onMounted } from 'vue';
-import { useMap } from '@/composables/useMap';
 
 const props = defineProps<{
     trip: TripRecord;
@@ -70,6 +70,7 @@ const formatDuration = (start: number | string, end: number | string): string =>
 
 const formatDistance = (distanceInMeters: number): string => {
     const kilometers = distanceInMeters / 1000;
+
     return Math.floor(kilometers) > 0 ? `${kilometers.toFixed(2)} km` : `${distanceInMeters} m`;
 
 };

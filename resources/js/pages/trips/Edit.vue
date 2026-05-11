@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { useForm, Link } from '@inertiajs/vue3';
 import moment from 'moment/moment';
+import { onMounted, toRef } from 'vue';
 import TripController from '@/actions/App/Http/Controllers/TripController';
+import { addDistanceMarkerEvents, useMap } from '@/composables/useMap';
 import { toISODateTimeByMinute } from '@/lib/utils';
 import type { RideType, Station, TripRecord, WorldLocation } from '@/types';
-import { onMounted, toRef } from 'vue';
-import { addDistanceMarkerEvents, useMap } from '@/composables/useMap';
 
 const props = defineProps<{
     trip: TripRecord;
@@ -51,7 +51,7 @@ onMounted(() => {
     const start = L.latLng(props.trip.start_station.location.latitude, props.trip.start_station.location.longitude);
     const end = L.latLng(props.trip.end_station.location.latitude, props.trip.end_station.location.longitude);
 
-    let options = {
+    const options = {
         draggable: true,
     };
 

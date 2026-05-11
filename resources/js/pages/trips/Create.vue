@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { Link, useForm } from '@inertiajs/vue3';
 import moment from 'moment';
+import { onMounted, toRef } from 'vue';
 import TripController from '@/actions/App/Http/Controllers/TripController';
+import { addDistanceMarkerEvents, useMap } from '@/composables/useMap';
 import { toISODateTimeByMinute } from '@/lib/utils';
 import type { Station, WorldLocation } from '@/types';
 import { RideType } from '@/types';
-import { onMounted, toRef } from 'vue';
-import { addDistanceMarkerEvents, useMap } from '@/composables/useMap';
 
 defineProps<{
     stations: Station[];

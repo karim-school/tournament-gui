@@ -1,7 +1,7 @@
 import 'leaflet/dist/leaflet.css';
 import * as L from 'leaflet';
-import { WorldLocation } from '@/types';
-import { Ref } from 'vue';
+import type { Ref } from 'vue';
+import type { WorldLocation } from '@/types';
 
 type MapStateOptions = {
     mapId: string,
@@ -43,7 +43,7 @@ export function addDistanceMarkerEvents(
             return;
         }
 
-        let options = {
+        const options = {
             draggable: true,
         };
         let marker = undefined;

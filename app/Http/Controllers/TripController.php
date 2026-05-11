@@ -159,6 +159,7 @@ class TripController extends Controller
             return redirect()->route('trips.show', ['trip' => $trip->id])->with('success', 'Trip record created successfully.');
         } catch (\Throwable $e) {
             Log::error($e);
+
             return back()->with('error', 'Failed to create trip record: '.$e->getMessage());
         }
     }
