@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Link, usePage } from '@inertiajs/vue3';
-import { /*BookOpen, Folder, LayoutGrid, */Menu, Search } from 'lucide-vue-next';
+import { Menu, Rows3Icon, Search } from 'lucide-vue-next';
 import { computed } from 'vue';
 import AppLogo from '@/components/AppLogo.vue';
 import AppLogoIcon from '@/components/AppLogoIcon.vue';
@@ -35,8 +35,9 @@ import UserMenuContent from '@/components/UserMenuContent.vue';
 import { useCurrentUrl } from '@/composables/useCurrentUrl';
 import { getInitials } from '@/composables/useInitials';
 import { toUrl } from '@/lib/utils';
-import { /*dashboard, */login, register } from '@/routes';
+import { home, login, register } from '@/routes';
 import type { BreadcrumbItem, NavItem } from '@/types';
+import SheetDescription from './ui/sheet/SheetDescription.vue';
 
 type Props = {
     breadcrumbs?: BreadcrumbItem[];
@@ -56,11 +57,11 @@ const activeItemStyles =
     'text-neutral-900 dark:bg-neutral-800 dark:text-neutral-100';
 
 const mainNavItems: NavItem[] = [
-//    {
-//        title: 'Dashboard',
-//        href: dashboard(),
-//        icon: LayoutGrid,
-//    },
+    {
+        title: 'Home',
+        href: home(),
+        icon: Rows3Icon,
+    },
 ];
 
 const rightNavItems: NavItem[] = [
@@ -101,6 +102,7 @@ const rightNavItems: NavItem[] = [
                                 <AppLogoIcon
                                     class="size-6 fill-current text-black dark:text-white"
                                 />
+                                <SheetDescription class="sr-only">TripTrack</SheetDescription>
                             </SheetHeader>
                             <div
                                 class="flex h-full flex-1 flex-col justify-between space-y-4 py-6"
@@ -119,8 +121,13 @@ const rightNavItems: NavItem[] = [
                                         "
                                     >
                                         <component
-                                            v-if="item.icon"
+                                            v-if="item.icon && typeof item.icon !== 'string'"
                                             :is="item.icon"
+                                            class="h-5 w-5"
+                                        />
+                                        <img
+                                            v-else-if="item.icon"
+                                            :src="item.icon"
                                             class="h-5 w-5"
                                         />
                                         {{ item.title }}
@@ -136,8 +143,13 @@ const rightNavItems: NavItem[] = [
                                         class="flex items-center space-x-2 text-sm font-medium"
                                     >
                                         <component
-                                            v-if="item.icon"
+                                            v-if="item.icon && typeof item.icon !== 'string'"
                                             :is="item.icon"
+                                            class="h-5 w-5"
+                                        />
+                                        <img
+                                            v-else-if="item.icon"
+                                            :src="item.icon"
                                             class="h-5 w-5"
                                         />
                                         <span>{{ item.title }}</span>
@@ -175,9 +187,14 @@ const rightNavItems: NavItem[] = [
                                     :href="item.href"
                                 >
                                     <component
-                                        v-if="item.icon"
+                                        v-if="item.icon && typeof item.icon !== 'string'"
                                         :is="item.icon"
-                                        class="mr-2 h-4 w-4"
+                                        :class="item.title ? 'mr-2 h-4 w-4' : 'h-4 w-4'"
+                                    />
+                                    <img
+                                        v-else-if="item.icon"
+                                        :src="item.icon"
+                                        :class="item.title ? 'mr-2 h-4 w-4' : 'h-4 w-4'"
                                     />
                                     {{ item.title }}
                                 </Link>
