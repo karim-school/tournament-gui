@@ -116,3 +116,19 @@ The SLA declaration can be found in the <a href="SLA.md">SLA.md</a> file.
 ## Lighthouse
 
 <img src="lighthouse.png" alt="Lighthouse Report" />
+
+## Architecture
+
+The project uses PHP as the backend and blade + Vue as the frontend through Inertia. This setup makes it a single-page application (SPA) out-of-the-box.
+
+Routes are defined in <a href="routes/web.php">routes/web.php</a>. These routes link to <a href="app/Http/Controllers/">controllers</a>, which then use Inertia to render a Vue page and pass along any necessary data from the server such as entries from the database.
+
+On top of controllers, <a href="app/Http/Middleware/">middleware</a> and <a href="app/Http/Requests/">form validation</a> also exist to handle cases before the controllers even know of them. There are also <a href="app/Http/Resources/">resources</a> to define the object structure sent from the server to the client for different models.
+
+### Database
+
+<img src="database.png" alt="Database diagram" />
+
+### Routes
+
+<img src="routes.png" alt="List of routes" />
