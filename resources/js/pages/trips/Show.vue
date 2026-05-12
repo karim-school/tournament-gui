@@ -173,7 +173,7 @@ const promptDeletion = (id) => {
                 </div>
                 <div class="p-6">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
+                        <div v-if="false">
                             <p class="text-sm text-gray-500 dark:text-gray-400">Station</p>
                             <p v-if="trip.start_station.name !== trip.end_station.name" class="mt-1 text-lg text-gray-900 dark:text-white flex flex-wrap gap-x-4">
                                 <span class="whitespace-nowrap">{{ trip.start_station?.name || 'Unknown' }}</span>
@@ -186,7 +186,7 @@ const promptDeletion = (id) => {
                         </div>
                         <div>
                             <p class="text-sm text-gray-500 dark:text-gray-400">Location</p>
-                            <p v-if="trip.start_station.name !== trip.end_station.name" class="mt-1 text-lg text-gray-900 dark:text-white flex flex-wrap gap-x-4">
+                            <p v-if="trip.start_station.name !== trip.end_station.name || true" class="mt-1 text-lg text-gray-900 dark:text-white flex flex-wrap gap-x-4">
                                 <span class="whitespace-nowrap">{{ trip.start_station.location ? formatCoordinates(trip.start_station.location.latitude, trip.start_station.location.longitude) : 'N/A' }}</span>
                                 <span class="whitespace-nowrap">-></span>
                                 <span class="whitespace-nowrap">{{ trip.end_station.location ? formatCoordinates(trip.end_station.location.latitude, trip.end_station.location.longitude) : 'N/A' }}</span>

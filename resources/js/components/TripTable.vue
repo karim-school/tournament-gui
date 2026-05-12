@@ -96,10 +96,10 @@ const formatDuration = (start: number, end: number): string => {
                     <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider" colspan="1">
                         Duration
                     </th>
-                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider" colspan="2">
+                    <th v-if="false" class="px-2 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider" colspan="2">
                         Start Station
                     </th>
-                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider" colspan="2">
+                    <th v-if="false" class="px-2 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider" colspan="2">
                         End Station
                     </th>
                     <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider" colspan="1">
@@ -130,10 +130,10 @@ const formatDuration = (start: number, end: number): string => {
                     <td class="px-2 py-3 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400" colspan="1">
                         {{ formatDuration(trip.started_at, trip.ended_at) }}
                     </td>
-                    <td class="px-2 py-3 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100 truncate" colspan="2">
+                    <td v-if="false" class="px-2 py-3 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100 truncate" colspan="2">
                         {{ trip.start_station?.name || 'Unknown' }}
                     </td>
-                    <td class="px-2 py-3 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100 truncate" colspan="2">
+                    <td v-if="false" class="px-2 py-3 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100 truncate" colspan="2">
                         {{ trip.end_station?.name || 'Unknown' }}
                     </td>
                     <td class="px-2 py-3 whitespace-nowrap text-sm" colspan="1">
