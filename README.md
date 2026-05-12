@@ -125,6 +125,16 @@ Routes are defined in <a href="routes/web.php">routes/web.php</a>. These routes 
 
 On top of controllers, <a href="app/Http/Middleware/">middleware</a> and <a href="app/Http/Requests/">form validation</a> also exist to handle cases before the controllers even know of them. There are also <a href="app/Http/Resources/">resources</a> to define the object structure sent from the server to the client for different models.
 
+### Design Patterns
+
+The home page makes use of the <a href="https://ui-patterns.com/patterns/leaderboard">Leaderboard</a> and <a href="https://ui-patterns.com/patterns/ContinuousScrolling">Continuous Scrolling</a> patterns to display a table of all trips. Internally, continuous scrolling is handled in chunks as <a href="https://ui-patterns.com/patterns/Pagination">Pagination</a>. The filtering also makes use of <a href="https://ui-patterns.com/patterns/StructuredFormat">Structured Format</a> and <a href="https://ui-patterns.com/patterns/InputPrompt">Input Prompts</a>.
+
+The site also uses <a href="https://ui-patterns.com/patterns/LazyRegistration">Lazy Registration</a> to allow users to navigate the site without signing in. Registration is only required for modifications to the data.
+
+Furthermore, the site uses a layout with a <a href="https://ui-patterns.com/patterns/HomeLink">Home Link</a> and <a href="https://ui-patterns.com/patterns/NavigationTabs">Navigation Tabs</a>. Additionally, <a href="https://ui-patterns.com/patterns/morphing-controls">Morphing Controls</a> are used around the site to hide or display actions that require authentication.
+
+<a href="https://ui-patterns.com/patterns/AccountRegistration">Account Registration</a> is used for authentication. When signed in, the user will also find an icon in the top right for their profile; clicking it shows a <a href="https://ui-patterns.com/patterns/VerticalDropdownMenu">Vertical Dropdown Menu</a>, wherein you can also find the settings page, which uses the <a href="https://ui-patterns.com/patterns/settings">Settings</a> pattern.
+
 ### Database
 
 <img src="database.png" alt="Database diagram" />

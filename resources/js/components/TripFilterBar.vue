@@ -105,6 +105,7 @@ const resetFilters = () => {
                     type="number"
                     min="0"
                     v-model="localFilters.min_duration"
+                    placeholder="Min. duration in minutes..."
                     class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                 />
             </div>
