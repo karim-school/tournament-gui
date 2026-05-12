@@ -9,7 +9,7 @@ const props = defineProps<{
     filters: {
         ride_type: string;
         rider_type: string;
-        station: string;
+        //station: string;
         date_from: string;
         date_to: string;
         min_duration: string;
@@ -26,7 +26,7 @@ const resetFilters = () => {
     localFilters.value = {
         ride_type: 'all',
         rider_type: 'all',
-        station: '',
+        //station: '',
         date_from: '',
         date_to: '',
         min_duration: '',
@@ -77,7 +77,7 @@ const resetFilters = () => {
                 </select>
             </div>
 
-            <div>
+            <div v-if="false">
                 <label
                     for="filter-station"
                     class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
@@ -89,6 +89,22 @@ const resetFilters = () => {
                     type="text"
                     v-model="localFilters.station"
                     placeholder="Search stations..."
+                    class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                />
+            </div>
+
+            <div>
+                <label
+                    for="filter-min-duration"
+                    class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                >
+                    Min. Duration
+                </label>
+                <input
+                    id="filter-min-duration"
+                    type="number"
+                    min="0"
+                    v-model="localFilters.min_duration"
                     class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                 />
             </div>
@@ -119,22 +135,6 @@ const resetFilters = () => {
                     id="filter-to-date"
                     type="date"
                     v-model="localFilters.date_to"
-                    class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                />
-            </div>
-
-            <div>
-                <label
-                    for="filter-min-duration"
-                    class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
-                >
-                    Min. Duration
-                </label>
-                <input
-                    id="filter-min-duration"
-                    type="number"
-                    min="0"
-                    v-model="localFilters.min_duration"
                     class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                 />
             </div>
