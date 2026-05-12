@@ -15,6 +15,7 @@ Upon registration, you will be considered a "casual rider". As a rider, you can 
 - **Compressed Document** - Serves the document with gzip encoding for faster load time.
 - **Responsive Design** - The UI works on all screen sizes.
 - **Request Logging** - Requests are logged with the URI, method and response time.
+- **Easy-to-use Trip Creation** - Create trips with an intuitive map design.
 
 ## Requirements
 
@@ -86,7 +87,7 @@ This will create a test user with the following credentials:
 ## How to use
 
 When accessing the root of the site, you will be presented with a table of trips.
-You may click the ID of any of these trips to show a detailed view of that particular trip. Additionally, you may sign in to add new trips of your own by pressing the "Add New Trip" button above the trip table.
+You may click the ID of any of these trips to show a detailed view of that particular trip. Additionally, you may sign in to add new trips of your own by pressing the "Add New Trip" button above the trip table. Here, you will be able to place two markers on the map - one for the start and one for the end. Additionally, a start and end time as well as the vehicle used are required.
 
 In case you want to edit or delete one of your trips, you may go to the detailed view and do so using the buttons at the top right. This will only be available to you if you are signed in as the rider of the trip.
 
